@@ -1,0 +1,24 @@
+{
+  "name": "drop-table-grades",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elissa-skinner/drop-table-grades.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elissa-skinner/drop-table-grades/issues"
+  },
+  "homepage": "https://github.com/elissa-skinner/drop-table-grades#readme",
+  "dependencies": {
+    "cool-ascii-faces": "^1.3.4"
+  }
+}
