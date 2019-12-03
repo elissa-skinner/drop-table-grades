@@ -1,0 +1,17 @@
+<!doctype html>
+<html>
+   <body>
+      <form action = "http://localhost:5000/success" method = "POST">
+	 {% for key, value in result.items() %}
+            <tr>
+		<output>Measurement Name: </output>
+               <th> {{ key }} </th>
+
+         	<p>Measurement Value: <input type = "text" name = "Measurement Value" /></p>
+  
+               
+            </tr>
+         {% endfor %}
+      </form>
+   </body>
+</html>
