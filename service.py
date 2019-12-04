@@ -1,4 +1,4 @@
-from models import TableModel
+'''from models import TableModel
 
 class TableService:
     def __init__(self):
@@ -6,7 +6,7 @@ class TableService:
 
     def create(self, params):
         self.model.create(params["text"], params["Description"])
-
+'''
 
 
 ###########
@@ -21,14 +21,16 @@ class TableService:
 # experiment.
 def get_exp_info_query(s, c):
     query = "SELECT E.exp_id, meas_name, meas_val " \
-            "FROM experiments E, experiment_conditions C, experiment_measurements M " \
-            "WHERE E.exp_id = C.exp_id " \
-            "AND E.exp_id = M.exp_id " \
+            "FROM experiments E, experiment_measurements M " \
+            "WHERE E.exp_id = M.exp_id " \
             "AND seq_name = \"" + s + "\""
 
-    for (condition, value) in c:
-        query += " AND cond_name = \"" + condition + "\" " \
-                  "AND cond_val = \"" + value + "\""
+    query += "".join(" AND E.exp_id IN "
+                     "(SELECT exp_id "
+                     "FROM experiment_conditions "
+                     "WHERE cond_name = \"" + key + "\" "
+                     "AND cond_val = \"" + c[key] + "\")"
+                     for key in c)
 
     return query
 
@@ -52,19 +54,20 @@ def get_side_by_side_query(exp1, exp2):
 # values that contain one of the given sequences and at least one of the given
 # condition values. If a list of measurements is included then only those
 # specified measurements will be returned.
-def get_exp_info_query(s, c, m):
-    query = "SELECT E.exp_id, meas_name, meas_val " \
+def get_mult_exp_info_query(s, c, m):
+    query = "SELECT DISTINCT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_conditions C, experiment_measurements M " \
             "WHERE E.exp_id = C.exp_id " \
-            "AND E.exp_id = M.exp_id "
+            "AND E.exp_id = M.exp_id " \
+            "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) +\
+            ") AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c)\
+            + ")"
 
-    for sequence in s:
-        query += " AND seq_name = \"" + sequence + "\""                     ### Houston we have a problem
+    if m is not None:
+        query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m)\
+                 + ")"
 
-    for (condition, value) in c:
-        query += " AND cond_name = \"" + condition + "\"" \
-                                                     "AND cond_val = \"" + value + "\""
+    print(query)
 
     return query
 
-### ^^this needs more work...a lot more work

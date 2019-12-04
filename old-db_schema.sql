@@ -1,3 +1,5 @@
+CREATE DATABASE  IF NOT EXISTS `drop_table_grades` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `drop_table_grades`;
 -- MySQL dump 10.13  Distrib 8.0.17, for Win64 (x86_64)
 --
 -- Host: 127.0.0.1    Database: drop_table_grades
@@ -31,39 +33,19 @@ CREATE TABLE `conditions` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `conditions`
+-- Table structure for table `experiement_conditions`
 --
 
-LOCK TABLES `conditions` WRITE;
-/*!40000 ALTER TABLE `conditions` DISABLE KEYS */;
-INSERT INTO `conditions` VALUES ('cond1','int'),('cond2','int'),('cond3','int');
-/*!40000 ALTER TABLE `conditions` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `experiment_conditions`
---
-
-DROP TABLE IF EXISTS `experiment_conditions`;
+DROP TABLE IF EXISTS `experiement_conditions`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `experiment_conditions` (
+CREATE TABLE `experiement_conditions` (
   `exp_id` varchar(45) NOT NULL,
   `cond_name` varchar(45) NOT NULL,
   `cond_val` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`exp_id`,`cond_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `experiment_conditions`
---
-
-LOCK TABLES `experiment_conditions` WRITE;
-/*!40000 ALTER TABLE `experiment_conditions` DISABLE KEYS */;
-INSERT INTO `experiment_conditions` VALUES ('a','cond1','9'),('a','cond2','5'),('a','cond3','5'),('b','cond1','5'),('b','cond2','5'),('b','cond3','2'),('c','cond1','8'),('c','cond2','5'),('c','cond3','9'),('d','cond2','5');
-/*!40000 ALTER TABLE `experiment_conditions` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `experiment_measurements`
@@ -79,16 +61,6 @@ CREATE TABLE `experiment_measurements` (
   PRIMARY KEY (`exp_id`,`meas_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `experiment_measurements`
---
-
-LOCK TABLES `experiment_measurements` WRITE;
-/*!40000 ALTER TABLE `experiment_measurements` DISABLE KEYS */;
-INSERT INTO `experiment_measurements` VALUES ('a','meas1','5'),('a','meas2','9'),('a','meas3','yes'),('a','meas4','0'),('b','meas1','5'),('b','meas2','4'),('b','meas3','no'),('b','meas4','0'),('d','meas1','2'),('d','meas3','yes');
-/*!40000 ALTER TABLE `experiment_measurements` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `experiments`
@@ -108,16 +80,6 @@ CREATE TABLE `experiments` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `experiments`
---
-
-LOCK TABLES `experiments` WRITE;
-/*!40000 ALTER TABLE `experiments` DISABLE KEYS */;
-INSERT INTO `experiments` VALUES ('a','seq1'),('d','seq1'),('b','seq2'),('c','seq3'),('e','seq3');
-/*!40000 ALTER TABLE `experiments` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `measurements`
 --
 
@@ -131,16 +93,6 @@ CREATE TABLE `measurements` (
   UNIQUE KEY `meas_name_UNIQUE` (`meas_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `measurements`
---
-
-LOCK TABLES `measurements` WRITE;
-/*!40000 ALTER TABLE `measurements` DISABLE KEYS */;
-INSERT INTO `measurements` VALUES ('meas1','int'),('meas2','int'),('meas3','str'),('meas4','bool');
-/*!40000 ALTER TABLE `measurements` ENABLE KEYS */;
-UNLOCK TABLES;
 
 --
 -- Table structure for table `sequences`
@@ -159,16 +111,6 @@ CREATE TABLE `sequences` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `sequences`
---
-
-LOCK TABLES `sequences` WRITE;
-/*!40000 ALTER TABLE `sequences` DISABLE KEYS */;
-INSERT INTO `sequences` VALUES ('seq1',NULL,NULL),('seq2',NULL,NULL),('seq3',NULL,NULL);
-/*!40000 ALTER TABLE `sequences` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Dumping routines for database 'drop_table_grades'
 --
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -181,4 +123,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-04 17:27:51
+-- Dump completed on 2019-11-27 17:53:56

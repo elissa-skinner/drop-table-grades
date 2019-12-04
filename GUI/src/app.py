@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from service import *
 app = Flask(__name__)
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -70,6 +71,7 @@ def success():
     
 
 if __name__ == '__main__':
+    get_mult_exp_info_query(["seq1", "seq3"], {"cond2": "5", "cond3": "5"}, None)
     app.run(debug = True)
 
 
@@ -129,7 +131,8 @@ def hello_name(name):
 
 @app.route('/rev/<float:revNo>')
 def revision(revNo):
-   return 'Revision Number %f' % revNo
+   return 'Revision Number %f' % revNo
+
 
 if __name__ == "__main__":
     #Schema()
