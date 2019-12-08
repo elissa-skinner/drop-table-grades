@@ -1,4 +1,4 @@
-from models import DB_Connection
+from models import *
 
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
@@ -7,14 +7,14 @@ DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "CSV": "CSV File Name",
                  "TYPE": "Type"}
 
+db = DB_Connection()
+
 '''
 determine which query to preform from success page
 '''
-
-
 def insert_into_db(results):
     if DICT_OF_NAMES["CONDITION"] in results:
-        insert_new_condition(results)
+        db.insert_new_condition(results)
     elif DICT_OF_NAMES["MEASUREMENT"] in results:
         print("measurements!")
     elif DICT_OF_NAMES["SEQUENCE"] in results:
@@ -25,17 +25,6 @@ def insert_into_db(results):
         print("csv")
 
 
-def insert_new_condition(results):
-    if DICT_OF_NAMES["CONDITION"] not in results \
-            or DICT_OF_NAMES["TYPE"] not in results:
-        print("ERROR - improper elements in dict")
-        return
-
-    query = "INSERT INTO conditions (cond_name, type) " \
-            "VALUES (\"" + results[DICT_OF_NAMES["CONDITION"]] + \
-            "\", \"" + results[DICT_OF_NAMES["TYPE"]] + "\")"
-
-    db.insert_condition(query)      # make db global???
 
 
 ###########

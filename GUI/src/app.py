@@ -73,7 +73,6 @@ def success():
     
 
 if __name__ == '__main__':
-    db = DB_Connection
     app.run(debug = True)
 
 
