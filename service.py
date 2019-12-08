@@ -1,12 +1,41 @@
-'''from models import TableModel
+from models import DB_Connection
 
-class TableService:
-    def __init__(self):
-        self.model = TableModel()
+DICT_OF_NAMES = {"CONDITION": "Condition Name ",
+                 "MEASUREMENT": "Measurement Name ",
+                 "SEQUENCE": "Sequence Name ",
+                 "EXPERIMENT": "Measurement Value",
+                 "CSV": "CSV File Name",
+                 "TYPE": "Type"}
 
-    def create(self, params):
-        self.model.create(params["text"], params["Description"])
 '''
+determine which query to preform from success page
+'''
+
+
+def insert_into_db(results):
+    if DICT_OF_NAMES["CONDITION"] in results:
+        insert_new_condition(results)
+    elif DICT_OF_NAMES["MEASUREMENT"] in results:
+        print("measurements!")
+    elif DICT_OF_NAMES["SEQUENCE"] in results:
+        print("sequence!")
+    elif DICT_OF_NAMES["EXPERIMENT"] in results:
+        print("measurement value")
+    elif DICT_OF_NAMES["CSV"] in results:
+        print("csv")
+
+
+def insert_new_condition(results):
+    if DICT_OF_NAMES["CONDITION"] not in results \
+            or DICT_OF_NAMES["TYPE"] not in results:
+        print("ERROR - improper elements in dict")
+        return
+
+    query = "INSERT INTO conditions (cond_name, type) " \
+            "VALUES (\"" + results[DICT_OF_NAMES["CONDITION"]] + \
+            "\", \"" + results[DICT_OF_NAMES["TYPE"]] + "\")"
+
+    db.insert_condition(query)      # make db global???
 
 
 ###########
@@ -29,10 +58,11 @@ def get_exp_info_query(s, c):
                      "(SELECT exp_id "
                      "FROM experiment_conditions "
                      "WHERE cond_name = \"" + key + "\" "
-                     "AND cond_val = \"" + c[key] + "\")"
+                                                    "AND cond_val = \"" + c[key] + "\")"
                      for key in c)
 
     return query
+
 
 # exp1: experiment id
 # exp2: experiment id
@@ -42,10 +72,11 @@ def get_side_by_side_query(exp1, exp2):
     query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
             "FROM experiment_measurements E1, experiment_measurements E2 " \
             "WHERE E1.exp_id = \"" + exp1 + "\" " \
-            "AND E2.exp_id = \"" + exp2 + "\" " \
-            "AND E1.meas_name = E2.meas_name"
+                                            "AND E2.exp_id = \"" + exp2 + "\" " \
+                                                                          "AND E1.meas_name = E2.meas_name"
 
     return query
+
 
 # s: List<seq_name>
 # c: Dict{cond_name: cond_val}
@@ -59,15 +90,14 @@ def get_mult_exp_info_query(s, c, m):
             "FROM experiments E, experiment_conditions C, experiment_measurements M " \
             "WHERE E.exp_id = C.exp_id " \
             "AND E.exp_id = M.exp_id " \
-            "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) +\
-            ") AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c)\
+            "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) + \
+            ") AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c) \
             + ")"
 
     if m is not None:
-        query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m)\
+        query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m) \
                  + ")"
 
     print(query)
 
     return query
-

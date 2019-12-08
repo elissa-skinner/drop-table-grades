@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request
 from service import *
+from models import *
 app = Flask(__name__)
 
 @app.route('/', methods = ['POST', 'GET'])
@@ -62,6 +63,7 @@ def results():
 def success():
     if request.method == 'POST':
         result = request.form
+        insert_into_db(result)
         return render_template("different.html",result = result)
     
 '''def results():
@@ -71,7 +73,7 @@ def success():
     
 
 if __name__ == '__main__':
-    get_mult_exp_info_query(["seq1", "seq3"], {"cond2": "5", "cond3": "5"}, None)
+    db = DB_Connection
     app.run(debug = True)
 
 
