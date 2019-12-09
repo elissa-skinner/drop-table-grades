@@ -45,7 +45,7 @@ def enterCSV():
 @app.route('/expInfo', methods = ['POST', 'GET'])
 def expInfo():
     if request.method == 'POST':
-        return render_template("different.html")
+        return render_template("expInfo.html")
     
 @app.route('/sideByside', methods = ['POST', 'GET'])
 def sideByside():
@@ -65,6 +65,13 @@ def success():
         result = request.form
         insert_into_db(result)
         return render_template("different.html",result = result)
+
+@app.route('/displayExpInfo', methods = ['POST', 'GET'])
+def displayExpInfo():
+    if request.method == 'POST':
+        result = request.form
+        get_exp(result)
+        return render_template("different.html", result = result)       # TODO: change to display exp
     
 '''def results():
     if request.method == 'POST':
