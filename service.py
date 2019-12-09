@@ -16,9 +16,9 @@ def insert_into_db(results):
     if DICT_OF_NAMES["CONDITION"] in results:
         db.insert_new_condition(results)
     elif DICT_OF_NAMES["MEASUREMENT"] in results:
-        print("measurements!")
+        db.insert_new_measurement(results)
     elif DICT_OF_NAMES["SEQUENCE"] in results:
-        print("sequence!")
+        db.insert_new_sequence(results)
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
         print("measurement value")
     elif DICT_OF_NAMES["CSV"] in results:
