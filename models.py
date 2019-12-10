@@ -19,7 +19,7 @@ class DB_Connection:
                                           password='password',
                                           database='drop_table_grades')
         self.cursor = self.connection.cursor()
-
+        
     def insert_new_condition(self, results):
         if DICT_OF_NAMES["CONDITION"] not in results \
                 or DICT_OF_NAMES["TYPE"] not in results:
@@ -73,3 +73,7 @@ class DB_Connection:
 
         except Exception as e:
             print(e)
+            
+            
+
+    
