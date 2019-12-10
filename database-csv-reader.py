@@ -4,7 +4,7 @@ import pymysql.cursors
 connection = pymysql.connect(host='localhost',
                              port=3306,
                              user='root',
-                             password='',
+                             password='password',
                              database='drop_table_grades')
 cursor = connection.cursor()
 
@@ -57,6 +57,12 @@ def read_csv_file(csv_path):
                 all_seqs_found = False
                 break
 
+            try:
+                cursor.execute("INSERT INTO experiments "
+                               "VALUES ('" + experiment_id + "', '" + seq_name + "')")
+            except Exception as e:
+                print(str(e))
+
             all_conditions_found = True
             for j in range(0, len(experiment_tokens), 2):
                 condition = experiment_tokens[j]
@@ -91,7 +97,6 @@ def read_csv_file(csv_path):
                 try:
                     cursor.execute("INSERT INTO experiment_conditions "
                                "VALUES ('" + experiment_id + "', '" + condition + "', '" + condition_value + "')")
-                    connection.commit()
                 except Exception as e:
                     print(str(e))
 
@@ -104,6 +109,11 @@ def read_csv_file(csv_path):
         elif not all_conditions_found:
             print("Processing stopped because invalid condition was found.")
             return
+
+        try:
+            connection.commit()
+        except Exception as e:
+            print(str(e))
 
         all_measurements_found = True
 
