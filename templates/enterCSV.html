@@ -1,9 +1,16 @@
 <!doctype html>
 <html>
+   <head><title>Welcome!</title></head>
    <body>
+	<div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
+	<a href="/newMesur">New Measurement,</a> <a href="/newSeq">New Sequence,</a>
+	<a href="/exp">Experiment,</a> <a href="/enterCSV">EnterCSV,</a>
+	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
+	<a href="/results">Get Results</a></div> 
+
       <form action = "http://localhost:5000/success" method = "POST">
-	<output>Please Enter CSV FileName (Path)</output>
-         <p>CSV File Name: <input type = "text" name = "CSV File Name " /></p>
+	<h1>Please Select CSV File</h1>
+         <p>CSV File Name: <input type = "file" name = "CSV File Name " /></p>
   	
          <p><input type = "submit" value = "submit" /></p>
       </form>

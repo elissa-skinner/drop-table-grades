@@ -8,19 +8,15 @@
 	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
 	<a href="/results">Get Results</a></div> 
 
-	<h1>Please Enter Measurement Information for Experiment </h1>
-      <form action = "http://localhost:5000/success" method = "POST">
-	 {% for key, value in result.items() %}
-            <tr>
-		<output>Measurement Name: </output>
-               <th> {{ key }} </th>
+	<h1>How Would you Like to Get your Results?</h1>
 
-         	<p>Measurement Value: <input type = "text" name = "Measurement Value " /></p>
-  
-               
-            </tr>
-         {% endfor %}
-	<p><input type = "submit" value = "submit" /></p>
+	<form action = "http://localhost:5000/resultsSC" method = "POST">
+         <p><input type = "submit" value = "Enter Sequences and Conditions" /></p>
       </form>
+      <form action = "http://localhost:5000/resultsM" method = "POST">
+         <p><input type = "submit" value = "Enter  Measurements" /></p>
+      </form>
+     
+	
    </body>
 </html>

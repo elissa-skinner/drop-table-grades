@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+   <head><title>Welcome!</title></head>
+   <body>
+	<div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
+	<a href="/newMesur">New Measurement,</a> <a href="/newSeq">New Sequence,</a>
+	<a href="/exp">Experiment,</a> <a href="/enterCSV">EnterCSV,</a>
+	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
+	<a href="/results">Get Results</a></div> 
+
+
+      <form action = "http://localhost:5000/displayResults" method = "POST">
+	<h1>Please Enter Sequences and Conditions</h1>
+	<P>Enter Sequence Names</P>
+        {% for i in range(0, result1) %}
+            <tr>
+
+         	<p>Sequence Name #<th> {{ i }} </th>: <input type = "text" name = "Measurement Name #{{ i }}" /></p>
+  
+               
+            </tr>
+        {% endfor %}
+	<P>Enter Condition Names</P>
+	{% for i in range(0, result2) %}
+            <tr>
+
+         	<p>Condition Name #<th> {{ i }} </th>: <input type = "text" name = "Measurement Name #{{ i }}" /></p>
+  
+               
+            </tr>
+         {% endfor %}	
+
+        <p><input type = "submit" value = "Continue" /></p>
+      </form>
+   </body>
+</html>
