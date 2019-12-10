@@ -4,7 +4,7 @@ DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
                  "EXPERIMENT": "Measurement Value",
-                 "CSV": "CSV File Name",
+                 "CSV": "CSV File Name ",
                  "TYPE": "Type"}
 
 db = DB_Connection()
@@ -25,6 +25,9 @@ def insert_into_db(results):
         print("csv")
 
 def get_exp(result):
+    # parse result
+    # get query
+    # execute query
     print("getting result")
 #    parse_seq(result[])
 
