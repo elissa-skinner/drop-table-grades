@@ -1,4 +1,4 @@
-from models import DB_Connection
+from models import *
 
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
@@ -7,47 +7,39 @@ DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "CSV": "CSV File Name",
                  "TYPE": "Type"}
 
+db = DB_Connection()
+
 '''
 determine which query to preform from success page
 '''
-
-
 def insert_into_db(results):
     if DICT_OF_NAMES["CONDITION"] in results:
-        insert_new_condition(results)
+        db.insert_new_condition(results)
     elif DICT_OF_NAMES["MEASUREMENT"] in results:
-        print("measurements!")
+        db.insert_new_measurement(results)
     elif DICT_OF_NAMES["SEQUENCE"] in results:
-        print("sequence!")
+        db.insert_new_sequence(results)
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
         print("measurement value")
     elif DICT_OF_NAMES["CSV"] in results:
         print("csv")
 
-
-def insert_new_condition(results):
-    if DICT_OF_NAMES["CONDITION"] not in results \
-            or DICT_OF_NAMES["TYPE"] not in results:
-        print("ERROR - improper elements in dict")
-        return
-
-    query = "INSERT INTO conditions (cond_name, type) " \
-            "VALUES (\"" + results[DICT_OF_NAMES["CONDITION"]] + \
-            "\", \"" + results[DICT_OF_NAMES["TYPE"]] + "\")"
-
-    db.insert_condition(query)      # make db global???
-
+def get_exp(result):
+    print("getting result")
+#    parse_seq(result[])
 
 ###########
 # queries #
 ###########
 
-# s: seq_name
-# c: {cond_name: cond_val}
-# query returns a list of experiment ids, measurement names, and measurement
-# values that contain the given sequence and condition values. The given
-# conditions may not be an exhaustive list for the conditions of a returned
-# experiment.
+'''
+s: seq_name
+c: {cond_name: cond_val}
+query returns a list of experiment ids, measurement names, and measurement
+values that contain the given sequence and condition values. The given
+conditions may not be an exhaustive list for the conditions of a returned
+experiment.
+'''
 def get_exp_info_query(s, c):
     query = "SELECT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_measurements M " \
@@ -64,10 +56,12 @@ def get_exp_info_query(s, c):
     return query
 
 
-# exp1: experiment id
-# exp2: experiment id
-# query returns a list of measurement names, measurement values for exp1, and
-# measurement values for exp2.
+'''
+exp1: experiment id
+exp2: experiment id
+query returns a list of measurement names, measurement values for exp1, and
+measurement values for exp2.
+'''
 def get_side_by_side_query(exp1, exp2):
     query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
             "FROM experiment_measurements E1, experiment_measurements E2 " \
@@ -78,13 +72,15 @@ def get_side_by_side_query(exp1, exp2):
     return query
 
 
-# s: List<seq_name>
-# c: Dict{cond_name: cond_val}
-# m: List<meas_name> or None
-# query returns a list of experiment ids, measurement names, and measurement
-# values that contain one of the given sequences and at least one of the given
-# condition values. If a list of measurements is included then only those
-# specified measurements will be returned.
+'''
+s: List<seq_name>
+c: Dict{cond_name: cond_val}
+m: List<meas_name> or None
+query returns a list of experiment ids, measurement names, and measurement
+values that contain one of the given sequences and at least one of the given
+condition values. If a list of measurements is included then only those
+specified measurements will be returned.
+'''
 def get_mult_exp_info_query(s, c, m):
     query = "SELECT DISTINCT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_conditions C, experiment_measurements M " \
