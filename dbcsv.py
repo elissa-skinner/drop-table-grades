@@ -1,13 +1,4 @@
 import csv
-import pymysql.cursors
-
-connection = pymysql.connect(host='localhost',
-                             port=3306,
-                             user='root',
-                             password='password',
-                             database='drop_table_grades')
-cursor = connection.cursor()
-
 
 def str_is_int(s):
     try:
@@ -32,7 +23,7 @@ def str_is_bool(s):
         return False
 
 
-def read_csv_file(csv_path):
+def read_csv_file(connection, cursor, csv_path):
     with open(csv_path, 'r') as csv_file:
         reader = csv.reader(csv_file)
         rows = [row for row in reader]
@@ -48,7 +39,7 @@ def read_csv_file(csv_path):
             seq_name = experiment_tokens[0]
             experiment_tokens = experiment_tokens[1:]
 
-            cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = '" + seq_name + "'")
+            cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = %s;", (seq_name,))
             tuples = cursor.fetchall()
 
             if len(tuples) == 0:
@@ -59,7 +50,7 @@ def read_csv_file(csv_path):
 
             try:
                 cursor.execute("INSERT INTO experiments "
-                               "VALUES ('" + experiment_id + "', '" + seq_name + "')")
+                               "VALUES (%s,%s)", (experiment_id, seq_name))
             except Exception as e:
                 print(str(e))
 
@@ -68,7 +59,7 @@ def read_csv_file(csv_path):
                 condition = experiment_tokens[j]
                 condition_value = experiment_tokens[j + 1]
 
-                cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = '" + condition + "'")
+                cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = %s;", (condition,))
                 tuples = cursor.fetchall()
                 if len(tuples) == 0:
                     print("Condition " + condition + " is not stored in the database. "
@@ -96,7 +87,8 @@ def read_csv_file(csv_path):
                 # condition is now verified
                 try:
                     cursor.execute("INSERT INTO experiment_conditions "
-                                   "VALUES ('" + experiment_id + "', '" + condition + "', '" + condition_value + "')")
+                                   "VALUES (%s,%s,%s);", (experiment_id, condition, condition_value))
+                    connection.commit()
                 except Exception as e:
                     print(str(e))
 
@@ -119,7 +111,7 @@ def read_csv_file(csv_path):
 
         for row in rows:
             measurement = row[0]
-            cursor.execute("SELECT * FROM measurements WHERE meas_name = '" + measurement + "'")
+            cursor.execute("SELECT * FROM measurements WHERE meas_name = %s;", (measurement,))
             tuples = cursor.fetchall()
 
             if len(tuples) == 0:
@@ -153,7 +145,7 @@ def read_csv_file(csv_path):
                         break
                 try:
                     cursor.execute("INSERT INTO experiment_measurements "
-                                   "VALUES ('" + experiment_id + "', '" + measurement + "' ,'" + meas_val + "')")
+                                   "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
                     connection.commit()
                 except Exception as e:
                     print(str(e))
@@ -165,4 +157,3 @@ def read_csv_file(csv_path):
             print("Processing stopped because invalid measurement was found.")
 
 
-read_csv_file("example.csv")
