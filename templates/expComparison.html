@@ -12,14 +12,22 @@
       <form action = "http://localhost:5000/success" method = "POST">
 	 {% for key, value in result.items() %}
             <tr>
-		<output>Measurement Name: </output>
-               <th> {{ value }} </th>
-
-         	<p>Measurement Value: <input type = "text" name = "Measurement Value " /></p>
-  
+		<output>Experiment Name: </output>
+               <th> {{ value }} </th> <br> 
                
             </tr>
          {% endfor %}
+
+	 {% for value in result2 %}
+            <tr>
+		<p>Meas<tab id=t1>urement Name: {{ value[0] }}<br>
+		Experiment 1 Value: {{ value[1] }}<br>
+		Experiment 2 Value: {{ value[2] }}</p>
+         	
+               
+            </tr>
+         {% endfor %}
+
 	<p><input type = "submit" value = "submit" /></p>
       </form>
    </body>
