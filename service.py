@@ -45,10 +45,6 @@ def get_meas():
 
 
 def get_exp(result):
-    # parse result
-    # get query
-    # execute query
-
     experiment_id = result
     experiment_tokens = experiment_id.split('_')
     seq_name = experiment_tokens[0]
@@ -68,7 +64,7 @@ def get_exp(result):
 def get_mult_exp_info(result):
     s = []
     c = {}
-    m = None
+    m = []
     for key in result:
         if "Sequence" in key:
             s.append(result[key])
@@ -77,10 +73,13 @@ def get_mult_exp_info(result):
                 c[cond_name] = result[key]
             else:
                 cond_name = result[key]
+        elif "Measurement" in key:
+            m.append(result[key])
 
-    a = db.execute_query(get_mult_exp_info_query(s, c, m))
+    if len(m) == 0:
+        m = None
 
-    return a
+    return db.execute_query(get_mult_exp_info_query(s, c, m))
 
 
 ###########
