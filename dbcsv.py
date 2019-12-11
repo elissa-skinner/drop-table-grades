@@ -104,15 +104,15 @@ def read_csv_file(connection, cursor, csv_path):
 
         if not all_seqs_found:
             print("Processing stopped because invalid sequence was found.")
-            return
+            return "Invalid sequence found"
         elif not all_conditions_found:
             print("Processing stopped because invalid condition was found.")
-            return
+            return "Invalid condition found"
 
         try:
             connection.commit()
         except Exception as e:
-            print(str(e))
+            return str(e)
 
         all_measurements_found = True
 
@@ -155,10 +155,10 @@ def read_csv_file(connection, cursor, csv_path):
                                    "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
                     connection.commit()
                 except Exception as e:
-                    print(str(e))
+                    return str(e)
 
             if not all_measurements_found:
                 break
 
         if not all_measurements_found:
-            print("Processing stopped because invalid measurement was found.")
+            return "Invalid measurement value was found."
