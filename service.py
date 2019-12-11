@@ -30,7 +30,6 @@ def insert_into_db(results):
         return "That's weird, got: " + str(results)
 
 
-
 def compare_exp(results):
     exp1 = results["Experiment #1 "]
     exp2 = results["Experiment #2 "]
@@ -50,6 +49,9 @@ def get_exp(result):
     # get query
     # execute query
     print("getting result")
+
+def get_mult_exp_info(result):
+    print("stuff")
 
 
 #    parse_seq(result[])
