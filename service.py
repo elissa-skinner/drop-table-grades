@@ -16,17 +16,19 @@ determine which query to preform from success page
 
 def insert_into_db(results):
     if DICT_OF_NAMES["CONDITION"] in results:
-        db.insert_new_condition(results)
+        return db.insert_new_condition(results)
     elif DICT_OF_NAMES["MEASUREMENT"] in results:
-        db.insert_new_measurement(results)
+        return db.insert_new_measurement(results)
     elif DICT_OF_NAMES["SEQUENCE"] in results:
-        db.insert_new_sequence(results)
+        return db.insert_new_sequence(results)
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
-        db.insert_new_experiment(results)
+        return db.insert_new_experiment(results)
     elif DICT_OF_NAMES["CSV"] in results:
-        db.read_csv_file(results)
+        return db.read_csv_file(results)
     else:
         print("GOT OTHER FOR results: ", results)
+        return "That's weird, got: " + str(results)
+
 
 def compare_exp(results):
     exp1 = results["Experiment #1 "]

@@ -31,7 +31,7 @@ class DB_Connection:
         if DICT_OF_NAMES["CONDITION"] not in results \
                 or DICT_OF_NAMES["TYPE"] not in results:
             print("ERROR - improper elements in dict")
-            return
+            return "ERROR"
 
         try:
             query = "INSERT INTO conditions (cond_name, type) " \
@@ -49,7 +49,7 @@ class DB_Connection:
         if DICT_OF_NAMES["MEASUREMENT"] not in results \
                 or DICT_OF_NAMES["TYPE"] not in results:
             print("ERROR - improper elements in dict")
-            return
+            return "ERROR"
 
         try:
             query = "INSERT INTO measurements (meas_name, type) " \
@@ -60,12 +60,12 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
-            print(str(e))
+            return str(e)
 
     def insert_new_sequence(self, results):
         if DICT_OF_NAMES["SEQUENCE"] not in results:
             print("ERROR - improper elements in dict")
-            return
+            return "ERROR"
 
         try:
             query = "INSERT INTO sequences (seq_name, filename, description) " \
@@ -79,7 +79,7 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
-            print(str(e))
+            return str(e)
 
     def is_exp(self, exp_id):
         try:
@@ -113,31 +113,32 @@ class DB_Connection:
 
                 if measurement_type == "int":
                     if not str_is_int(meas_val):
-                        print("Value for measurement " + measurement + " of " + meas_val + " is not an int.")
-                        all_measurements_found = False
-                        break
+                        err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not an int."
+                        print(err_msg)
+                        return err_msg
                 if measurement_type == "bool":
                     if not str_is_bool(meas_val):
-                        print("Value for measurement " + measurement + " of " + meas_val + " is not a bool.")
-                        all_measurements_found = False
-                        break
+                        err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not a bool."
+                        print(err_msg)
+                        return err_msg
                 if measurement_type == "float":
                     if not str_is_float(meas_val):
-                        print("Value for measurement " + measurement + " of " + meas_val + " is not a float.")
-                        all_measurements_found = False
-                        break
+                        err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not a float."
+                        print(err_msg)
+                        return err_msg
                 try:
                     self.cursor.execute("INSERT INTO experiment_measurements "
                                    "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
                     self.connection.commit()
                 except Exception as e:
-                    print(str(e))
+                    return str(e)
 
                 if not all_measurements_found:
                     break
 
         if not all_measurements_found:
             print("Processing stopped because invalid measurement was found.")
+            return "Processing stopped because invalid measurement was found."
 
     def get_meas_from_db(self):
         try:
@@ -150,9 +151,9 @@ class DB_Connection:
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:
             print("ERROR - improper elements in dict")
-            return
+            return "ERROR"
 
-        read_csv(self.connection, self.cursor, results[DICT_OF_NAMES["CSV"]])
+        return read_csv(self.connection, self.cursor, results[DICT_OF_NAMES["CSV"]])
 
     def side_by_side(self, exp1, exp2):
         try:
