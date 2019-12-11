@@ -113,13 +113,11 @@ def displayExpInfo():
         return render_template("displayExpInfo.html", result=result)  # TODO: change to display exp
 
 
-'''def results():
-    if request.method == 'POST':
-        result = request.form
-        return render_template("different.html",result = result)'''
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 '''from flask import Flask, render_template
 app = Flask(__name__)
