@@ -4,7 +4,7 @@ DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
                  "EXPERIMENT": "Measurement Value",
-                 "CSV": "CSV File Name",
+                 "CSV": "CSV File Name ",
                  "TYPE": "Type"}
 
 db = DB_Connection()
@@ -22,9 +22,12 @@ def insert_into_db(results):
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
         print("measurement value")
     elif DICT_OF_NAMES["CSV"] in results:
-        print("csv")
+        db.read_csv_file(results)
 
 def get_exp(result):
+    # parse result
+    # get query
+    # execute query
     print("getting result")
 #    parse_seq(result[])
 
@@ -97,3 +100,29 @@ def get_mult_exp_info_query(s, c, m):
     print(query)
 
     return query
+
+
+###############
+# Check types #
+###############
+def str_is_int(s):
+    try:
+        int(s)
+        return True
+    except ValueError:
+        return False
+
+
+def str_is_float(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+
+
+def str_is_bool(s):
+    if s == "T" or s == "F" or s == "0" or s == "1":
+        return True
+    else:
+        return False

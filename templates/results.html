@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+   <head><title>Welcome!</title></head>
+   <body>
+	<div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
+	<a href="/newMesur">New Measurement,</a> <a href="/newSeq">New Sequence,</a>
+	<a href="/exp">Experiment,</a> <a href="/enterCSV">EnterCSV,</a>
+	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
+	<a href="/results">Get Results</a></div> 
+
+	<h1>How Would you Like to Get your Results?</h1>
+
+	<form action = "http://localhost:5000/resultsSC" method = "POST">
+         <p><input type = "submit" value = "Enter Sequences and Conditions" /></p>
+      </form>
+      <form action = "http://localhost:5000/resultsM" method = "POST">
+         <p><input type = "submit" value = "Enter  Measurements" /></p>
+      </form>
+     
+	
+   </body>
+</html>
