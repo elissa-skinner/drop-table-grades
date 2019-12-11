@@ -8,14 +8,10 @@
 	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
 	<a href="/results">Get Results</a></div> 
 
-	
 	<h1>Experiment Info</h1> <br>
-	 {% for key, value in result.items() %}
-            <tr>
-               <th> {{ key }} </th> <output>=</output>
-               <td> {{ value }} </td> <br>
-            </tr>
-         {% endfor %}
+	<p>Experiment Name: {{ result }}</p>
+	
+	
  	<form action = "http://localhost:5000" method = "POST">
          <p><input type = "submit" value = "Back to Main" /></p>
       </form>
