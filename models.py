@@ -77,5 +77,12 @@ class DB_Connection:
         except Exception as e:
             print(e)
 
+    def insert_new_experiment(self, results):
+        print()
+
     def read_csv_file(self, results):
-        read_csv(self.connection, self.cursor, results)
+        if DICT_OF_NAMES["CSV"] not in results:
+            print("ERROR - improper elements in dict")
+            return
+
+        read_csv(self.connection, self.cursor, results[DICT_OF_NAMES["CSV"]])
