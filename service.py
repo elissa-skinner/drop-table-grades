@@ -33,9 +33,7 @@ def compare_exp(results):
         print("bad experiment names")
         return
 
-    a = db.side_by_side(exp1, exp2)
-
-    return a
+    return db.side_by_side(exp1, exp2)
 
 def get_meas():
     return db.get_meas_from_db()
