@@ -65,8 +65,12 @@ def expComparison():
     if request.method == 'POST':
         result = request.form
         result2 = compare_exp(result)
-        return render_template("expComparison.html", result=result, result2 = result2)
-
+        #return render_template("expComparison.html", result=result, result2 = result2)
+        if result2 == None: 
+             return render_template("Error.html", result2=result2)
+        else:
+            return render_template("expComparison.html", result=result, result2 = result2)
+           
 
 @app.route('/results', methods=['POST', 'GET'])
 def results():

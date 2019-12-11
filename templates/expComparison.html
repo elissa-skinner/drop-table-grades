@@ -9,7 +9,7 @@
 	<a href="/results">Get Results</a></div> 
 
 	<h1>Common Measurements </h1>
-      <form action = "http://localhost:5000/success" method = "POST">
+      <form action = "http://localhost:5000/" method = "POST">
 	 {% for key, value in result.items() %}
             <tr>
 		<output>Experiment Name: </output>
@@ -28,7 +28,7 @@
             </tr>
          {% endfor %}
 
-	<p><input type = "submit" value = "submit" /></p>
+	<p><input type = "submit" value = "Back to Main" /></p>
       </form>
    </body>
 </html>
