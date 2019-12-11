@@ -112,8 +112,8 @@ def success():
 def displayExpInfo():
     if request.method == 'POST':
         result = request.form.get('Experiment Name ')
-        get_exp(result)
-        return render_template("displayExpInfo.html", result=result)  # TODO: change to display exp
+        result2 = get_exp(result)
+        return render_template("displayExpInfo.html", result=result, result2=result2)  # TODO: change to display exp
 
 
 
