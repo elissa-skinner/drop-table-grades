@@ -148,6 +148,13 @@ class DB_Connection:
         except Exception as e:
             print(str(e))
 
+    def get_exp_info(self, query):
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+        except Exception as e:
+            print(str(e))
+
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:
             print("ERROR - improper elements in dict")
