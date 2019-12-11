@@ -3,7 +3,7 @@ from models import *
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
-                 "EXPERIMENT": "Measurement Value ",
+                 "EXPERIMENT": "Experiment Name ",
                  "CSV": "CSV File Name ",
                  "TYPE": "Type"}
 
@@ -22,10 +22,11 @@ def insert_into_db(results):
     elif DICT_OF_NAMES["SEQUENCE"] in results:
         db.insert_new_sequence(results)
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
-
         db.insert_new_experiment(results)
     elif DICT_OF_NAMES["CSV"] in results:
         db.read_csv_file(results)
+    else:
+        print("GOT OTHER FOR results: ", results)
 
 
 def compare_exp(results):
