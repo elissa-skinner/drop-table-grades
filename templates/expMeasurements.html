@@ -11,7 +11,9 @@
 	<h1>Please Enter Measurement Information for Experiment </h1>
       <form action = "http://localhost:5000/success" method = "POST">
 	
-	<p>Experiment Name: {{ result }}</p>
+	 <p>Experiment Name: {{ result }}</p>
+	<input type="hidden" name="Experiment Name " value={{ result }} />
+	 
 	 {% for value in result2 %}
             <tr>
 		<output>Measurement Name: </output>
