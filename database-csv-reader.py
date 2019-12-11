@@ -41,14 +41,14 @@ def read_csv_file(csv_path):
         rows = rows[1:]
         all_seqs_found = True
 
-        for i in range(1,len(start_row)):
+        for i in range(1, len(start_row)):
             experiment_id = str(start_row[i])
             experiment_tokens = experiment_id.split('_')
 
             seq_name = experiment_tokens[0]
             experiment_tokens = experiment_tokens[1:]
 
-            cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = '" + seq_name + "'")
+            cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = %s;", (seq_name,))
             tuples = cursor.fetchall()
 
             if len(tuples) == 0:
@@ -62,7 +62,7 @@ def read_csv_file(csv_path):
                 condition = experiment_tokens[j]
                 condition_value = experiment_tokens[j + 1]
 
-                cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = '" + condition + "'")
+                cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = %s;", (condition,))
                 tuples = cursor.fetchall()
                 if len(tuples) == 0:
                     print("Condition " + condition + " is not stored in the database. "
@@ -90,7 +90,7 @@ def read_csv_file(csv_path):
                 # condition is now verified
                 try:
                     cursor.execute("INSERT INTO experiment_conditions "
-                               "VALUES ('" + experiment_id + "', '" + condition + "', '" + condition_value + "')")
+                                   "VALUES (%s,%s,%s);", (experiment_id, condition, condition_value))
                     connection.commit()
                 except Exception as e:
                     print(str(e))
@@ -109,7 +109,7 @@ def read_csv_file(csv_path):
 
         for row in rows:
             measurement = row[0]
-            cursor.execute("SELECT * FROM measurements WHERE meas_name = '" + measurement + "'")
+            cursor.execute("SELECT * FROM measurements WHERE meas_name = %s;", (measurement,))
             tuples = cursor.fetchall()
 
             if len(tuples) == 0:
@@ -143,7 +143,7 @@ def read_csv_file(csv_path):
                         break
                 try:
                     cursor.execute("INSERT INTO experiment_measurements "
-                                   "VALUES ('" + experiment_id + "', '" + measurement + "' ,'" + meas_val + "')")
+                                   "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
                     connection.commit()
                 except Exception as e:
                     print(str(e))
@@ -153,7 +153,6 @@ def read_csv_file(csv_path):
 
         if not all_measurements_found:
             print("Processing stopped because invalid measurement was found.")
-
 
 
 read_csv_file("example.csv")
