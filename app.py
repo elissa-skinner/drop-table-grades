@@ -103,6 +103,7 @@ def displayResults():
         if result2 != None: 
             return render_template("displayResults.html", result=result, result2 = result2)
         else:
+            result2 = 'No Tuples Found'
             return render_template("Error.html", result2=result2)
         #return render_template("displayResults.html", result=result)
 
