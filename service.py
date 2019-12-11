@@ -30,6 +30,7 @@ def insert_into_db(results):
         return "That's weird, got: " + str(results)
 
 
+
 def compare_exp(results):
     exp1 = results["Experiment #1 "]
     exp2 = results["Experiment #2 "]
