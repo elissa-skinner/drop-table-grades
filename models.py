@@ -5,7 +5,7 @@ from dbcsv import read_csv_file as read_csv
 from dbcsv import parse_experiment_id as parse_experiment_id
 from dbcsv import str_is_bool
 from dbcsv import str_is_float
-from dbcsv import  str_is_int
+from dbcsv import str_is_int
 
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
@@ -97,6 +97,9 @@ class DB_Connection:
 
         for measurement in results:
             if measurement != DICT_OF_NAMES["EXPERIMENT"]:
+                if results[measurement] == "":
+                    continue
+
                 meas_val = results[measurement]
                 self.cursor.execute("SELECT * FROM measurements WHERE meas_name = %s;", (measurement,))
                 tuples = self.cursor.fetchall()
@@ -128,7 +131,7 @@ class DB_Connection:
                         return err_msg
                 try:
                     self.cursor.execute("INSERT INTO experiment_measurements "
-                                   "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
+                                        "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
                     self.connection.commit()
                 except Exception as e:
                     return str(e)
@@ -167,8 +170,8 @@ class DB_Connection:
             query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
                     "FROM experiment_measurements E1, experiment_measurements E2 " \
                     "WHERE E1.exp_id = \"" + exp1 + "\" " \
-                    "AND E2.exp_id = \"" + exp2 + "\" " \
-                    "AND E1.meas_name = E2.meas_name"
+                                                    "AND E2.exp_id = \"" + exp2 + "\" " \
+                                                                                  "AND E1.meas_name = E2.meas_name"
             self.cursor.execute(query)
             return self.cursor.fetchall()
 
