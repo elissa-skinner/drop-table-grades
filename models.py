@@ -78,7 +78,7 @@ class DB_Connection:
             print(e)
 
     def insert_new_experiment(self, results):
-        print()
+        print(results)
 
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:

@@ -1,5 +1,6 @@
 import csv
 
+
 def str_is_int(s):
     try:
         int(s)
@@ -155,5 +156,3 @@ def read_csv_file(connection, cursor, csv_path):
 
         if not all_measurements_found:
             print("Processing stopped because invalid measurement was found.")
-
-
