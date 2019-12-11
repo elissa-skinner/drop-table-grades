@@ -24,6 +24,63 @@ def str_is_bool(s):
         return False
 
 
+def parse_experiment_id(connection, cursor, experiment_id):
+    experiment_tokens = experiment_id.split('_')
+
+    seq_name = experiment_tokens[0]
+    experiment_tokens = experiment_tokens[1:]
+
+    cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = %s;", (seq_name,))
+    tuples = cursor.fetchall()
+
+    if len(tuples) == 0:
+        print("Sequence " + seq_name + " is not stored in the database."
+                                       " Please enter its information in the gui.")
+        return "Bad sequence"
+
+    try:
+        cursor.execute("INSERT INTO experiments "
+                       "VALUES (%s,%s)", (experiment_id, seq_name))
+    except Exception as e:
+        print(str(e))
+
+    all_conditions_found = True
+    for j in range(0, len(experiment_tokens), 2):
+        condition = experiment_tokens[j]
+        condition_value = experiment_tokens[j + 1]
+
+        cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = %s;", (condition,))
+        tuples = cursor.fetchall()
+        if len(tuples) == 0:
+            print("Condition " + condition + " is not stored in the database. "
+                                             "Please enter its information in the gui.")
+            return "Bad condition"
+
+        condition_type = tuples[0][1]
+        if condition_type == "int":
+            if not str_is_int(condition_value):
+                print("Value for condition " + condition + " of " + condition_value + " is not an int.")
+                return "Bad condition"
+        elif condition_type == "bool":
+            if not str_is_bool(condition_value):
+                print("Value for condition " + condition + " of " + condition_value + " is not a bool.")
+                return "Bad condition"
+        elif condition_type == "float":
+            if not str_is_float(condition_value):
+                print("Value for condition " + condition + " of " + condition_value + " is not a float.")
+                return "Bad condition"
+
+        # condition is now verified
+        try:
+            cursor.execute("INSERT INTO experiment_conditions "
+                           "VALUES (%s,%s,%s);", (experiment_id, condition, condition_value))
+            connection.commit()
+        except Exception as e:
+            print(str(e))
+
+    return "Good"
+
+
 def read_csv_file(connection, cursor, csv_path):
     with open(csv_path, 'r') as csv_file:
         reader = csv.reader(csv_file)
@@ -32,68 +89,17 @@ def read_csv_file(connection, cursor, csv_path):
         start_row = rows[0]
         rows = rows[1:]
         all_seqs_found = True
+        all_conditions_found = True
 
         for i in range(1, len(start_row)):
             experiment_id = str(start_row[i])
-            experiment_tokens = experiment_id.split('_')
+            result = parse_experiment_id(connection,cursor,experiment_id)
 
-            seq_name = experiment_tokens[0]
-            experiment_tokens = experiment_tokens[1:]
-
-            cursor.execute("SELECT * FROM sequences s WHERE s.seq_name = %s;", (seq_name,))
-            tuples = cursor.fetchall()
-
-            if len(tuples) == 0:
-                print("Sequence " + seq_name + " is not stored in the database."
-                                               " Please enter its information in the gui.")
+            if result == "Bad sequence":
                 all_seqs_found = False
                 break
-
-            try:
-                cursor.execute("INSERT INTO experiments "
-                               "VALUES (%s,%s)", (experiment_id, seq_name))
-            except Exception as e:
-                print(str(e))
-
-            all_conditions_found = True
-            for j in range(0, len(experiment_tokens), 2):
-                condition = experiment_tokens[j]
-                condition_value = experiment_tokens[j + 1]
-
-                cursor.execute("SELECT * FROM conditions c WHERE c.cond_name = %s;", (condition,))
-                tuples = cursor.fetchall()
-                if len(tuples) == 0:
-                    print("Condition " + condition + " is not stored in the database. "
-                                                     "Please enter its information in the gui.")
-                    all_conditions_found = False
-                    break
-
-                condition_type = tuples[0][1]
-                if condition_type == "int":
-                    if not str_is_int(condition_value):
-                        print("Value for condition " + condition + " of " + condition_value + " is not an int.")
-                        all_conditions_found = False
-                        break
-                elif condition_type == "bool":
-                    if not str_is_bool(condition_value):
-                        print("Value for condition " + condition + " of " + condition_value + " is not a bool.")
-                        all_conditions_found = False
-                        break
-                elif condition_type == "float":
-                    if not str_is_float(condition_value):
-                        print("Value for condition " + condition + " of " + condition_value + " is not a float.")
-                        all_conditions_found = False
-                        break
-
-                # condition is now verified
-                try:
-                    cursor.execute("INSERT INTO experiment_conditions "
-                                   "VALUES (%s,%s,%s);", (experiment_id, condition, condition_value))
-                    connection.commit()
-                except Exception as e:
-                    print(str(e))
-
-            if not all_conditions_found:
+            if result == "Bad condition":
+                all_conditions_found = False
                 break
 
         if not all_seqs_found:

@@ -2,11 +2,15 @@ import pymysql.cursors
 import csv
 from service import *
 from dbcsv import read_csv_file as read_csv
+from dbcsv import parse_experiment_id as parse_experiment_id
+from dbcsv import str_is_bool
+from dbcsv import str_is_float
+from dbcsv import  str_is_int
 
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
-                 "EXPERIMENT": "Measurement Value ",
+                 "EXPERIMENT": "Experiment Name ",
                  "CSV": "CSV File Name ",
                  "TYPE": "Type",
                  "FILENAME": "Sequence File ",
@@ -86,7 +90,54 @@ class DB_Connection:
             print(str(e))
 
     def insert_new_experiment(self, results):
-        print(results)
+        experiment_id = results[DICT_OF_NAMES["EXPERIMENT"]]
+        parse_experiment_id(self.connection, self.cursor, experiment_id)
+
+        all_measurements_found = True
+
+        for measurement in results:
+            if measurement != DICT_OF_NAMES["EXPERIMENT"]:
+                meas_val = results[measurement]
+                self.cursor.execute("SELECT * FROM measurements WHERE meas_name = %s;", (measurement,))
+                tuples = self.cursor.fetchall()
+
+                if len(tuples) == 0:
+                    print("Measurement " + measurement + " is not stored in the database."
+                                                         " Please enter its information in the gui.")
+                    all_measurements_found = False
+                    break
+
+                measurement_type = tuples[0][1]
+                if meas_val is None or meas_val == "":
+                    continue
+
+                if measurement_type == "int":
+                    if not str_is_int(meas_val):
+                        print("Value for measurement " + measurement + " of " + meas_val + " is not an int.")
+                        all_measurements_found = False
+                        break
+                if measurement_type == "bool":
+                    if not str_is_bool(meas_val):
+                        print("Value for measurement " + measurement + " of " + meas_val + " is not a bool.")
+                        all_measurements_found = False
+                        break
+                if measurement_type == "float":
+                    if not str_is_float(meas_val):
+                        print("Value for measurement " + measurement + " of " + meas_val + " is not a float.")
+                        all_measurements_found = False
+                        break
+                try:
+                    self.cursor.execute("INSERT INTO experiment_measurements "
+                                   "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
+                    self.connection.commit()
+                except Exception as e:
+                    print(str(e))
+
+                if not all_measurements_found:
+                    break
+
+        if not all_measurements_found:
+            print("Processing stopped because invalid measurement was found.")
 
     def get_meas_from_db(self):
         try:

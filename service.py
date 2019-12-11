@@ -3,7 +3,7 @@ from models import *
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
-                 "EXPERIMENT": "Measurement Value ",
+                 "EXPERIMENT": "Experiment Name ",
                  "CSV": "CSV File Name ",
                  "TYPE": "Type"}
 
@@ -12,6 +12,8 @@ db = DB_Connection()
 '''
 determine which query to preform from success page
 '''
+
+
 def insert_into_db(results):
     if DICT_OF_NAMES["CONDITION"] in results:
         db.insert_new_condition(results)
@@ -20,11 +22,12 @@ def insert_into_db(results):
     elif DICT_OF_NAMES["SEQUENCE"] in results:
         db.insert_new_sequence(results)
     elif DICT_OF_NAMES["EXPERIMENT"] in results:
-
-
         db.insert_new_experiment(results)
     elif DICT_OF_NAMES["CSV"] in results:
         db.read_csv_file(results)
+    else:
+        print("GOT OTHER FOR results: ", results)
+
 
 def compare_exp(results):
     exp1 = results["Experiment #1 "]
@@ -35,14 +38,18 @@ def compare_exp(results):
 
     return db.side_by_side(exp1, exp2)
 
+
 def get_meas():
     return db.get_meas_from_db()
+
 
 def get_exp(result):
     # parse result
     # get query
     # execute query
     print("getting result")
+
+
 #    parse_seq(result[])
 
 ###########
@@ -57,6 +64,8 @@ values that contain the given sequence and condition values. The given
 conditions may not be an exhaustive list for the conditions of a returned
 experiment.
 '''
+
+
 def get_exp_info_query(s, c):
     query = "SELECT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_measurements M " \
@@ -79,12 +88,14 @@ exp2: experiment id
 query returns a list of measurement names, measurement values for exp1, and
 measurement values for exp2.
 '''
+
+
 def get_side_by_side_query(exp1, exp2):
     query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
             "FROM experiment_measurements E1, experiment_measurements E2 " \
             "WHERE E1.exp_id = \"" + exp1 + "\" " \
-            "AND E2.exp_id = \"" + exp2 + "\" " \
-            "AND E1.meas_name = E2.meas_name"
+                                            "AND E2.exp_id = \"" + exp2 + "\" " \
+                                                                          "AND E1.meas_name = E2.meas_name"
 
     return query
 
@@ -98,6 +109,8 @@ values that contain one of the given sequences and at least one of the given
 condition values. If a list of measurements is included then only those
 specified measurements will be returned.
 '''
+
+
 def get_mult_exp_info_query(s, c, m):
     query = "SELECT DISTINCT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_conditions C, experiment_measurements M " \
