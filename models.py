@@ -6,7 +6,7 @@ from dbcsv import read_csv_file as read_csv
 DICT_OF_NAMES = {"CONDITION": "Condition Name ",
                  "MEASUREMENT": "Measurement Name ",
                  "SEQUENCE": "Sequence Name ",
-                 "EXPERIMENT": "Measurement Value",
+                 "EXPERIMENT": "Measurement Value ",
                  "CSV": "CSV File Name ",
                  "TYPE": "Type",
                  "FILENAME": "Sequence File ",
@@ -75,26 +75,10 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
-            print(str(e))
-
-    def is_exp(self, exp_id):
-        try:
-            self.cursor.execute("SELECT * FROM experiments WHERE exp_id = \"" + exp_id + "\"")
-
-        except Exception as e:
-            print(str(e))
-
+            print(e)
 
     def insert_new_experiment(self, results):
-        print()
-
-    def get_meas_from_db(self):
-        try:
-            self.cursor.execute("SELECT * FROM measurements")
-            return self.cursor.fetchall()
-
-        except Exception as e:
-            print(str(e))
+        print(results)
 
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:
