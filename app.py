@@ -63,6 +63,7 @@ def sideByside():
 def expComparison():
     if request.method == 'POST':
         result = request.form
+        compare_exp(result)
         return render_template("expComparison.html", result=result)
 
 

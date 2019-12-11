@@ -24,6 +24,12 @@ def insert_into_db(results):
     elif DICT_OF_NAMES["CSV"] in results:
         db.read_csv_file(results)
 
+def compare_exp(results):
+    exp1 = results["Condition #1 "]
+    exp2 = results["Condition #2"]
+    if is_exp(exp1) and is_exp(exp2):
+        print("good!")
+
 def get_exp(result):
     # parse result
     # get query
