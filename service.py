@@ -48,6 +48,9 @@ def get_exp(result):
     # execute query
     print("getting result")
 
+def get_mult_exp_info(result):
+    print("stuff")
+
 
 #    parse_seq(result[])
 

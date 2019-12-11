@@ -94,6 +94,7 @@ def inputResultsSC():
 def displayResults():
     if request.method == 'POST':
         result = request.form
+
         return render_template("displayResults.html", result=result)
 
 
