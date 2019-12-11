@@ -30,6 +30,9 @@ def compare_exp(results):
     if is_exp(exp1) and is_exp(exp2):
         print("good!")
 
+def get_meas():
+    return db.get_meas_from_db()
+
 def get_exp(result):
     # parse result
     # get query

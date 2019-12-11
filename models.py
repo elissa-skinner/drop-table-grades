@@ -88,6 +88,14 @@ class DB_Connection:
     def insert_new_experiment(self, results):
         print()
 
+    def get_meas_from_db(self):
+        try:
+            self.cursor.execute("SELECT * FROM measurements")
+            return self.cursor.fetchall()
+
+        except Exception as e:
+            print(str(e))
+
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:
             print("ERROR - improper elements in dict")

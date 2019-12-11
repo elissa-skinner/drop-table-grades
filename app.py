@@ -38,6 +38,7 @@ def exp():
 def expMeasurements():
     if request.method == 'POST':
         result = request.form
+        get_meas()
         return render_template("expMeasurements.html", result=result)
 
 
