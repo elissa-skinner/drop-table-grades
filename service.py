@@ -76,9 +76,6 @@ def get_mult_exp_info(result):
         elif "Measurement" in key:
             m.append(result[key])
 
-    if len(m) == 0:
-        m = None
-
     return db.execute_query(get_mult_exp_info_query(s, c, m))
 
 
@@ -131,7 +128,7 @@ def get_side_by_side_query(exp1, exp2):
 '''
 s: List<seq_name>
 c: Dict{cond_name: cond_val}
-m: List<meas_name> or None
+m: List<meas_name>
 query returns a list of experiment ids, measurement names, and measurement
 values that contain one of the given sequences and at least one of the given
 condition values. If a list of measurements is included then only those
@@ -144,11 +141,16 @@ def get_mult_exp_info_query(s, c, m):
             "FROM experiments E, experiment_conditions C, experiment_measurements M " \
             "WHERE E.exp_id = C.exp_id " \
             "AND E.exp_id = M.exp_id " \
-            "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) + \
-            ") AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c) \
-            + ")"
 
-    if m is not None:
+    if len(s) != 0:
+        query += "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) + \
+                 ") "
+
+    if len(c) != 0:
+        query += "AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c) \
+                 + ")"
+
+    if len(m) != 0:
         query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m) \
                  + ")"
 
