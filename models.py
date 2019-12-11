@@ -43,7 +43,7 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
-            print(e)
+            print(str(e))
 
     def insert_new_measurement(self, results):
         if DICT_OF_NAMES["MEASUREMENT"] not in results \
@@ -60,7 +60,7 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
-            print(e)
+            print(str(e))
 
     def insert_new_sequence(self, results):
         if DICT_OF_NAMES["SEQUENCE"] not in results:
@@ -84,10 +84,10 @@ class DB_Connection:
     def is_exp(self, exp_id):
         try:
             self.cursor.execute("SELECT * FROM experiments WHERE exp_id = \"" + exp_id + "\"")
+            return len(self.cursor.fetchall()) != 0
 
         except Exception as e:
             print(str(e))
-        print(e)
 
     def insert_new_experiment(self, results):
         experiment_id = results[DICT_OF_NAMES["EXPERIMENT"]]
@@ -153,3 +153,16 @@ class DB_Connection:
             return
 
         read_csv(self.connection, self.cursor, results[DICT_OF_NAMES["CSV"]])
+
+    def side_by_side(self, exp1, exp2):
+        try:
+            query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
+                    "FROM experiment_measurements E1, experiment_measurements E2 " \
+                    "WHERE E1.exp_id = \"" + exp1 + "\" " \
+                    "AND E2.exp_id = \"" + exp2 + "\" " \
+                    "AND E1.meas_name = E2.meas_name"
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+
+        except Exception as e:
+            print(str(e))

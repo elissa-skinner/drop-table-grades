@@ -29,8 +29,11 @@ def insert_into_db(results):
 def compare_exp(results):
     exp1 = results["Experiment #1 "]
     exp2 = results["Experiment #2 "]
-    if db.is_exp(exp1) and db.is_exp(exp2):
-        print("good!")
+    if not db.is_exp(exp1) or not db.is_exp(exp2):
+        print("bad experiment names")
+        return
+
+    return db.side_by_side(exp1, exp2)
 
 def get_meas():
     return db.get_meas_from_db()
@@ -80,8 +83,8 @@ def get_side_by_side_query(exp1, exp2):
     query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
             "FROM experiment_measurements E1, experiment_measurements E2 " \
             "WHERE E1.exp_id = \"" + exp1 + "\" " \
-                                            "AND E2.exp_id = \"" + exp2 + "\" " \
-                                                                          "AND E1.meas_name = E2.meas_name"
+            "AND E2.exp_id = \"" + exp2 + "\" " \
+            "AND E1.meas_name = E2.meas_name"
 
     return query
 
