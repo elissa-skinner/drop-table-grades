@@ -1,13 +1,4 @@
 import csv
-import pymysql.cursors
-
-connection = pymysql.connect(host='localhost',
-                             port=3306,
-                             user='root',
-                             password='password',
-                             database='drop_table_grades')
-cursor = connection.cursor()
-
 
 def str_is_int(s):
     try:
@@ -32,7 +23,7 @@ def str_is_bool(s):
         return False
 
 
-def read_csv_file(csv_path):
+def read_csv_file(connection, cursor, csv_path):
     with open(csv_path, 'r') as csv_file:
         reader = csv.reader(csv_file)
         rows = [row for row in reader]
@@ -166,4 +157,3 @@ def read_csv_file(csv_path):
             print("Processing stopped because invalid measurement was found.")
 
 
-read_csv_file("example.csv")
