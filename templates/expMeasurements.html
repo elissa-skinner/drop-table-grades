@@ -17,8 +17,8 @@
 		<output>Measurement Name: </output>
                <th> {{ value[0] }} </th>
 
-         	<p>Measurement Value: <input type = "text" name = "Measurement Value " /></p>
-  
+         	<p>Measurement Value: <input type = "text" name = {{ value[0] }} /></p>
+  		<p> {{ MeasurementValue }} </p>
                
             </tr>
          {% endfor %}

@@ -39,7 +39,7 @@ def expMeasurements():
     if request.method == 'POST':
         result = request.form.get('Experiment Name ')
         result2 = get_meas()
-        return render_template("expMeasurements.html", result=result, result2 = result2)
+        return render_template("expMeasurements.html", result=result, result2=result2)
 
 
 @app.route('/enterCSV', methods=['POST', 'GET'])
