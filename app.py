@@ -64,8 +64,8 @@ def sideByside():
 def expComparison():
     if request.method == 'POST':
         result = request.form
-        compare_exp(result)
-        return render_template("expComparison.html", result=result)
+        result2 = compare_exp(result)
+        return render_template("expComparison.html", result=result, result2 = result2)
 
 
 @app.route('/results', methods=['POST', 'GET'])
@@ -101,8 +101,11 @@ def displayResults():
 def success():
     if request.method == 'POST':
         result = request.form
-        insert_into_db(result)
-        return render_template("different.html", result=result)
+        result2 = insert_into_db(result)
+        if result2 == None: 
+            return render_template("different.html", result=result)
+        else:
+            return render_template("Error.html", result2=result2)
 
 
 @app.route('/displayExpInfo', methods=['POST', 'GET'])

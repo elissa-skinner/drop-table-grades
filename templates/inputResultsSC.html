@@ -31,7 +31,8 @@
 	{% endif %}	
 	{% for i in range(0, result2) %}
             <tr>
-         	<p>Condition Name #<th> {{ i }} </th>: <input type = "text" name = "Condition Name #{{ i }}" /></p>
+         	<p>Condition Name #<th> {{ i }} </th>: <input type = "text" name = "Condition Name #{{ i }}" /><br>
+		Condition Value #<th> {{ i }} </th>: <input type = "text" name = "Condition Value #{{ i }}"</p>
                
             </tr>
          {% endfor %}	
