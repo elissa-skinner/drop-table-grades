@@ -48,7 +48,25 @@ def get_exp(result):
     # parse result
     # get query
     # execute query
-    print("getting result")
+
+    experiment_id = result[DICT_OF_NAMES["EXPERIMENT"]]
+    experiment_tokens = experiment_id.split('_')
+    seq_name = experiment_tokens[0]
+    experiment_tokens = experiment_tokens[1:]
+
+    conditions = {}
+    for j in range(0, len(experiment_tokens), 2):
+        condition = experiment_tokens[j]
+        condition_value = experiment_tokens[j + 1]
+        conditions[condition] = condition_value
+
+    query = get_exp_info_query(seq_name, conditions)
+    tuples = db.get_exp_info(query)
+    return tuples
+
+
+
+
 
 def get_mult_exp_info(result):
     print("stuff")
