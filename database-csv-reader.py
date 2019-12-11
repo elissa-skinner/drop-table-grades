@@ -41,7 +41,7 @@ def read_csv_file(csv_path):
         rows = rows[1:]
         all_seqs_found = True
 
-        for i in range(1,len(start_row)):
+        for i in range(1, len(start_row)):
             experiment_id = str(start_row[i])
             experiment_tokens = experiment_id.split('_')
 
@@ -96,7 +96,7 @@ def read_csv_file(csv_path):
                 # condition is now verified
                 try:
                     cursor.execute("INSERT INTO experiment_conditions "
-                               "VALUES ('" + experiment_id + "', '" + condition + "', '" + condition_value + "')")
+                                   "VALUES ('" + experiment_id + "', '" + condition + "', '" + condition_value + "')")
                 except Exception as e:
                     print(str(e))
 
@@ -163,7 +163,6 @@ def read_csv_file(csv_path):
 
         if not all_measurements_found:
             print("Processing stopped because invalid measurement was found.")
-
 
 
 read_csv_file("example.csv")
