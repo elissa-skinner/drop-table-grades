@@ -8,11 +8,12 @@
 	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
 	<a href="/results">Get Results</a></div> 
 
-      <form action = "http://localhost:5000/inputResultsSC" method = "POST">
-	<h1>Please Enter List of Sequences and Conditions</h1>
+      <form action = "http://localhost:5000/inputResults" method = "POST">
+	<h1>Please Enter Number of Sequences and Conditions</h1>
         <p>Number of Sequences: <input type="number" name = "SequenceVal" /></p>
 	<p>Number of Conditions: <input type="number" name = "ConditVal" /></p>
-	
+	<p>Please Enter the Number of Measurement Values you Wish to Display </p>
+	<p>Number of Measurements(Optional): <input type="number" name = "LoopVal" /></p>
         <p><input type = "submit" value = "Continue" /></p>
       </form>
    </body>

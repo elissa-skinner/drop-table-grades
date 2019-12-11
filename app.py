@@ -70,45 +70,23 @@ def expComparison():
 @app.route('/results', methods=['POST', 'GET'])
 def results():
     # if request.method == 'POST':
-    return render_template("results.html")
+    return render_template("resultsSC.html")
 
 
-@app.route('/resultsSC', methods=['POST', 'GET'])
-def resultsSC():
-    if request.method == 'POST':
-        result = request.form
-        return render_template("resultsSC.html", result=result)
 
-
-@app.route('/inputResultsSC', methods=['POST', 'GET'])
+@app.route('/inputResults', methods=['POST', 'GET'])
 def inputResultsSC():
     if request.method == 'POST':
         result1 = request.form.get('SequenceVal')
         result2 = request.form.get('ConditVal')
+        result3 = request.form.get('LoopVal')
         if result1 == '':
             result1 = 0
         if result2 == '':
             result2 = 0
-        result1 = int(result1)
-        result2 = int(result2)
-        return render_template("inputResultsSC.html", result1=result1, result2=result2)
-
-
-@app.route('/resultsM', methods=['POST', 'GET'])
-def resultsM():
-    if request.method == 'POST':
-        result = request.form
-        return render_template("resultsM.html", result=result)
-
-
-@app.route('/inputResultsM', methods=['POST', 'GET'])
-def inputResultsM():
-    if request.method == 'POST':
-        result = request.form.get('LoopVal')
-        if result == '':
-            result = 0
-        result = int(result)
-        return render_template("inputResultsM.html", result=result)
+        if result3 == '':
+            result3 = 0
+        return render_template("inputResultsSC.html", result1=int(result1), result2=int(result2), result3=int(result3))
 
 
 @app.route('/displayResults', methods=['POST', 'GET'])
