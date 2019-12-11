@@ -174,3 +174,11 @@ class DB_Connection:
 
         except Exception as e:
             print(str(e))
+
+    def execute_query(self, query):
+        try:
+            self.cursor.execute(query)
+            return self.cursor.fetchall()
+
+        except Exception as e:
+            print(str(e))

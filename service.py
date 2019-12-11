@@ -35,7 +35,7 @@ def compare_exp(results):
     exp2 = results["Experiment #2 "]
     if not db.is_exp(exp1) or not db.is_exp(exp2):
         print("bad experiment names")
-        return
+        return None
 
     return db.side_by_side(exp1, exp2)
 
@@ -65,17 +65,22 @@ def get_exp(result):
     return tuples
 
 
-
-
-
 def get_mult_exp_info(result):
+    s = []
+    c = {}
+    m = None
     for key in result:
         if "Sequence" in key:
-            print("Sequence: %s" % result[key])
+            s.append(result[key])
         elif "Condition" in key:
-            print("Condition: %s" % result[key])
             if "Value" in key:
-                print("value")
+                c[cond_name] = result[key]
+            else:
+                cond_name = result[key]
+
+    a = db.execute_query(get_mult_exp_info_query(s, c, m))
+
+    return a
 
 
 ###########
@@ -147,8 +152,6 @@ def get_mult_exp_info_query(s, c, m):
     if m is not None:
         query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m) \
                  + ")"
-
-    print(query)
 
     return query
 
