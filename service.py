@@ -28,7 +28,6 @@ def insert_into_db(results):
     else:
         print("GOT OTHER FOR results: ", results)
 
-
 def compare_exp(results):
     exp1 = results["Experiment #1 "]
     exp2 = results["Experiment #2 "]
