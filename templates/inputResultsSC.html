@@ -11,22 +11,40 @@
 
       <form action = "http://localhost:5000/displayResults" method = "POST">
 	<h1>Please Enter Sequences and Conditions</h1>
-	<P>Enter Sequence Names</P>
+
+	{% if result1|int > 0 %}
+	<tr>
+		<P>Enter Sequence Names</P>
+	</tr>
+	{% endif %}
         {% for i in range(0, result1) %}
             <tr>
-
-         	<p>Sequence Name #<th> {{ i }} </th>: <input type = "text" name = "Measurement Name #{{ i }}" /></p>
-  
-               
+         	<p>Sequence Name #<th> {{ i }} </th>: <input type = "text" name = "Sequence Name #{{ i }}" /></p>
             </tr>
         {% endfor %}
-	<P>Enter Condition Names</P>
+
+
+	{% if result2|int > 0 %}
+	<tr>
+		<P>Enter Condition Names</P>
+	</tr>
+	{% endif %}	
 	{% for i in range(0, result2) %}
             <tr>
-
-         	<p>Condition Name #<th> {{ i }} </th>: <input type = "text" name = "Measurement Name #{{ i }}" /></p>
-  
+         	<p>Condition Name #<th> {{ i }} </th>: <input type = "text" name = "Condition Name #{{ i }}" /></p>
                
+            </tr>
+         {% endfor %}	
+	
+
+	{% if result3|int > 0 %}
+	<tr>
+		<P>Enter Measurement Names</P>
+	</tr>
+	{% endif %}
+	{% for i in range(0, result3) %}
+            <tr>
+         	<p>Measurement Name #<th> {{ i }} </th>: <input type = "text" name = "Measurement Name #{{ i }}" /></p>               
             </tr>
          {% endfor %}	
 
