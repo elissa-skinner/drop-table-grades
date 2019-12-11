@@ -77,13 +77,13 @@ class DB_Connection:
         except Exception as e:
             print(str(e))
 
-        def is_exp(self, exp_id):
-            try:
-                self.cursor.execute("SELECT * FROM experiments WHERE exp_id = \"" + exp_id + "\"")
+    def is_exp(self, exp_id):
+        try:
+            self.cursor.execute("SELECT * FROM experiments WHERE exp_id = \"" + exp_id + "\"")
 
-            except Exception as e:
-                print(str(e))
-            print(e)
+        except Exception as e:
+            print(str(e))
+        print(e)
 
     def insert_new_experiment(self, results):
         print(results)
