@@ -38,6 +38,7 @@ def exp():
 def expMeasurements():
     if request.method == 'POST':
         result = request.form
+        get_meas()
         return render_template("expMeasurements.html", result=result)
 
 
@@ -63,6 +64,7 @@ def sideByside():
 def expComparison():
     if request.method == 'POST':
         result = request.form
+        compare_exp(result)
         return render_template("expComparison.html", result=result)
 
 
@@ -111,13 +113,11 @@ def displayExpInfo():
         return render_template("displayExpInfo.html", result=result)  # TODO: change to display exp
 
 
-'''def results():
-    if request.method == 'POST':
-        result = request.form
-        return render_template("different.html",result = result)'''
+
 
 if __name__ == '__main__':
     app.run(debug=True)
+
 
 '''from flask import Flask, render_template
 app = Flask(__name__)
