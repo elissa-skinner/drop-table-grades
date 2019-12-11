@@ -51,10 +51,14 @@ def get_exp(result):
     print("getting result")
 
 def get_mult_exp_info(result):
-    print("stuff")
+    for key in result:
+        if "Sequence" in key:
+            print("Sequence: %s" % result[key])
+        elif "Condition" in key:
+            print("Condition: %s" % result[key])
+            if "Value" in key:
+                print("value")
 
-
-#    parse_seq(result[])
 
 ###########
 # queries #
@@ -68,8 +72,6 @@ values that contain the given sequence and condition values. The given
 conditions may not be an exhaustive list for the conditions of a returned
 experiment.
 '''
-
-
 def get_exp_info_query(s, c):
     query = "SELECT E.exp_id, meas_name, meas_val " \
             "FROM experiments E, experiment_measurements M " \

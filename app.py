@@ -94,7 +94,7 @@ def inputResultsSC():
 def displayResults():
     if request.method == 'POST':
         result = request.form
-
+        get_mult_exp_info(result)
         return render_template("displayResults.html", result=result)
 
 
