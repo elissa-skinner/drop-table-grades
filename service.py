@@ -49,7 +49,7 @@ def get_exp(result):
     # get query
     # execute query
 
-    experiment_id = result[DICT_OF_NAMES["EXPERIMENT"]]
+    experiment_id = result
     experiment_tokens = experiment_id.split('_')
     seq_name = experiment_tokens[0]
     experiment_tokens = experiment_tokens[1:]
