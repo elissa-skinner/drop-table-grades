@@ -11,7 +11,15 @@
 	<h1>Experiment Info</h1> <br>
 	<p>Experiment Name: {{ result }}</p>
 	
-	
+	{% for value in result2 %}
+            <tr>
+		<p>Experiment Name: {{ value[0] }}<br>
+		Measurement Value: {{ value[1] }}<br>
+		Meassurement Name: {{ value[2] }}</p>
+         	
+               
+            </tr>
+         {% endfor %}
  	<form action = "http://localhost:5000" method = "POST">
          <p><input type = "submit" value = "Back to Main" /></p>
       </form>
