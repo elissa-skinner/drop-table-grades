@@ -67,7 +67,8 @@ def expComparison():
         result2 = compare_exp(result)
         #return render_template("expComparison.html", result=result, result2 = result2)
         if result2 == None: 
-             return render_template("Error.html", result2=result2)
+            result2 = 'Experiments not Entered'
+            return render_template("Error.html", result2=result2)
         else:
             return render_template("expComparison.html", result=result, result2 = result2)
            
@@ -98,8 +99,12 @@ def inputResultsSC():
 def displayResults():
     if request.method == 'POST':
         result = request.form
-        get_mult_exp_info(result)
-        return render_template("displayResults.html", result=result)
+        result2 = get_mult_exp_info(result)
+        if result2 != None: 
+            return render_template("displayResults.html", result=result, result2 = result2)
+        else:
+            return render_template("Error.html", result2=result2)
+        #return render_template("displayResults.html", result=result)
 
 
 @app.route('/success', methods=['POST', 'GET'])

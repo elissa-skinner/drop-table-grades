@@ -9,11 +9,14 @@
 	<a href="/results">Get Results</a></div> 
 
 	
-	<h1>Values Saved</h1> <br>
-	 {% for key, value in result.items() %}
+	<h1>Result Info</h1> <br>
+	 {% for value in result2 %}
             <tr>
-               <th> {{ key }} </th> <output>=</output>
-               <td> {{ value }} </td> <br>
+		<p>Experiment Name: {{ value[0] }}<br>
+		Measurement Value: {{ value[1] }}<br>
+		Meassurement Name: {{ value[2] }}</p>
+         	
+               
             </tr>
          {% endfor %}
  	<form action = "http://localhost:5000" method = "POST">
