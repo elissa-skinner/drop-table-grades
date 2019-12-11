@@ -75,10 +75,26 @@ class DB_Connection:
             self.connection.commit()
 
         except Exception as e:
+            print(str(e))
+
+        def is_exp(self, exp_id):
+            try:
+                self.cursor.execute("SELECT * FROM experiments WHERE exp_id = \"" + exp_id + "\"")
+
+            except Exception as e:
+                print(str(e))
             print(e)
 
     def insert_new_experiment(self, results):
         print(results)
+
+    def get_meas_from_db(self):
+        try:
+            self.cursor.execute("SELECT * FROM measurements")
+            return self.cursor.fetchall()
+
+        except Exception as e:
+            print(str(e))
 
     def read_csv_file(self, results):
         if DICT_OF_NAMES["CSV"] not in results:
