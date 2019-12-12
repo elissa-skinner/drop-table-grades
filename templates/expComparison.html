@@ -1,12 +1,16 @@
 <!doctype html>
 <html>
-   <head><title>Welcome!</title></head>
+    <head><title>Welcome!</title>
+    <link rel="stylesheet" href='/static/main.css'/>
+
+  </head>
    <body>
-	<div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
+	 <header><div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
 	<a href="/newMesur">New Measurement,</a> <a href="/newSeq">New Sequence,</a>
 	<a href="/exp">Experiment,</a> <a href="/enterCSV">EnterCSV,</a>
 	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
-	<a href="/results">Get Results</a></div> 
+	<a href="/results">Get Results</a></div>
+	</header> 
 
 	<h1>Common Measurements </h1>
       <form action = "http://localhost:5000/" method = "POST">
@@ -20,7 +24,7 @@
 
 	 {% for value in result2 %}
             <tr>
-		<p>Meas<tab id=t1>urement Name: {{ value[0] }}<br>
+		<p>Measurement Name: {{ value[0] }}<br>
 		Experiment 1 Value: {{ value[1] }}<br>
 		Experiment 2 Value: {{ value[2] }}</p>
          	
