@@ -76,7 +76,13 @@ def get_mult_exp_info(result):
         elif "Measurement" in key:
             m.append(result[key])
 
-    return db.execute_query(get_mult_exp_info_query(s, c, m))
+    if len(m) == 0:
+        query = get_results_query(s, c)
+    else:
+        query = get_mult_exp_info_query(s, c, m)
+
+    return db.execute_query(query)
+
 
 
 ###########
@@ -119,11 +125,26 @@ def get_side_by_side_query(exp1, exp2):
     query = "SELECT E1.meas_name, E1.meas_val, E2.meas_val " \
             "FROM experiment_measurements E1, experiment_measurements E2 " \
             "WHERE E1.exp_id = \"" + exp1 + "\" " \
-                                            "AND E2.exp_id = \"" + exp2 + "\" " \
-                                                                          "AND E1.meas_name = E2.meas_name"
+            "AND E2.exp_id = \"" + exp2 + "\" " \
+            "AND E1.meas_name = E2.meas_name"
 
     return query
 
+
+def get_results_query(s, c):
+    query = "SELECT DISTINCT E.exp_id " \
+            "FROM experiments E, experiment_conditions C " \
+            "WHERE E.exp_id = C.exp_id "
+
+    if len(s) != 0:
+        query += "AND (" + " OR ".join("seq_name = \"" + sequence + "\""
+                 for sequence in s) + ") "
+
+    if len(c) != 0:
+        query += "AND (" + " OR ".join("(cond_name = \"" + key +
+                 "\" AND cond_val = \"" + c[key] + "\")" for key in c) + ") "
+
+    return query
 
 '''
 s: List<seq_name>
@@ -143,16 +164,16 @@ def get_mult_exp_info_query(s, c, m):
             "AND E.exp_id = M.exp_id " \
 
     if len(s) != 0:
-        query += "AND (" + " OR ".join("seq_name = \"" + sequence + "\"" for sequence in s) + \
-                 ") "
+        query += "AND (" + " OR ".join("seq_name = \"" + sequence + "\""
+                 for sequence in s) + ") "
 
     if len(c) != 0:
-        query += "AND (" + " OR ".join("(cond_name = \"" + key + "\" AND cond_val = \"" + c[key] + "\")" for key in c) \
-                 + ")"
+        query += "AND (" + " OR ".join("(cond_name = \"" + key +
+                 "\" AND cond_val = \"" + c[key] + "\")" for key in c) + ")"
 
     if len(m) != 0:
-        query += " AND (" + " OR ".join("meas_name = \"" + measurement + "\"" for measurement in m) \
-                 + ")"
+        query += " AND (" + " OR ".join("meas_name = \"" + measurement +
+                 "\"" for measurement in m) + ")"
 
     return query
 
