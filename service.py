@@ -61,7 +61,22 @@ def get_exp(result):
     return tuples
 
 
-def get_mult_exp_info(result):
+def get_mult_exp(result):
+    s = []
+    c = {}
+    for key in result:
+        if "Sequence" in key:
+            s.append(result[key])
+        elif "Condition" in key:
+            if "Value" in key:
+                c[cond_name] = result[key]
+            else:
+                cond_name = result[key]
+
+    return db.execute_query(get_results_query(s, c))
+
+
+def get_mult_exp_meas(result):
     s = []
     c = {}
     m = []
@@ -77,11 +92,9 @@ def get_mult_exp_info(result):
             m.append(result[key])
 
     if len(m) == 0:
-        query = get_results_query(s, c)
+        return None
     else:
-        query = get_mult_exp_info_query(s, c, m)
-
-    return db.execute_query(query)
+        return db.execute_quety(get_mult_exp_info_query(s, c, m))
 
 
 def reorder_exp(exp_id):
