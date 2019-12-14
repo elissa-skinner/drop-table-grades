@@ -39,9 +39,7 @@ def parse_experiment_id(connection, cursor, experiment_id):
                                        " Please enter its information in the gui.")
         return "Bad sequence"
 
-    transaction = []
-
-    transaction.append("INSERT INTO experiments VALUES ('%s','%s')" % (experiment_id, seq_name))
+    transaction = ["INSERT INTO experiments VALUES ('%s','%s')" % (experiment_id, seq_name)]
 
     all_conditions_found = True
     for j in range(0, len(experiment_tokens), 2):
