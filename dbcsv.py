@@ -25,7 +25,7 @@ def str_is_bool(s):
         return False
 
 
-def parse_experiment_id(connection, cursor, experiment_id):
+def parse_experiment_id(connection, cursor, experiment_id, statements):
     experiment_tokens = experiment_id.split('_')
 
     seq_name = experiment_tokens[0]
@@ -39,9 +39,7 @@ def parse_experiment_id(connection, cursor, experiment_id):
                                        " Please enter its information in the gui.")
         return "Bad sequence"
 
-    transaction = []
-
-    transaction.append("INSERT INTO experiments VALUES ('%s','%s')" % (experiment_id, seq_name))
+    statements.append("INSERT INTO experiments VALUES ('%s','%s')" % (experiment_id, seq_name))
 
     all_conditions_found = True
     for j in range(0, len(experiment_tokens), 2):
@@ -70,15 +68,8 @@ def parse_experiment_id(connection, cursor, experiment_id):
                 return "Bad condition"
 
         # condition is now verified
-        transaction.append("INSERT INTO experiment_conditions "
-                           "VALUES ('%s','%s','%s');" % (experiment_id, condition, condition_value))
-
-    try:
-        for statement in transaction:
-            cursor.execute(statement)
-        connection.commit()
-    except Exception as e:
-        print(str(e))
+        statements.append("INSERT INTO experiment_conditions "
+                          "VALUES ('%s','%s','%s');" % (experiment_id, condition, condition_value))
 
     return "Good"
 
@@ -94,9 +85,11 @@ def read_csv_file(connection, cursor, csv_path):
             all_seqs_found = True
             all_conditions_found = True
 
+            statements = []
+
             for i in range(1, len(start_row)):
                 experiment_id = service.reorder_exp(str(start_row[i]))
-                result = parse_experiment_id(connection,cursor,experiment_id)
+                result = parse_experiment_id(connection, cursor, experiment_id, statements)
 
                 if result == "Bad sequence":
                     all_seqs_found = False
@@ -154,9 +147,8 @@ def read_csv_file(connection, cursor, csv_path):
                             all_measurements_found = False
                             break
                     try:
-                        cursor.execute("INSERT INTO experiment_measurements "
-                                       "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
-                        connection.commit()
+                        statements.append("INSERT INTO experiment_measurements "
+                                          "VALUES ('%s','%s','%s');" % (experiment_id, measurement, meas_val))
                     except Exception as e:
                         return str(e)
 
@@ -165,5 +157,14 @@ def read_csv_file(connection, cursor, csv_path):
 
             if not all_measurements_found:
                 return "Invalid measurement value was found."
+
+            for statement in statements:
+                try:
+                    cursor.execute(statement)
+                    connection.commit()
+                except Exception as e:
+                    print(str(e))
     except Exception as e:
         return str(e)
+
+
