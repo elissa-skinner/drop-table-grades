@@ -193,28 +193,3 @@ def get_mult_exp_info_query(s, c, m):
 
     return query
 
-
-###############
-# Check types #
-###############
-def str_is_int(s):
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
-
-
-def str_is_float(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        return False
-
-
-def str_is_bool(s):
-    if s == "T" or s == "F" or s == "0" or s == "1":
-        return True
-    else:
-        return False

@@ -93,7 +93,10 @@ class DB_Connection:
 
     def insert_new_experiment(self, results):
         experiment_id = service.reorder_exp(results[DICT_OF_NAMES["EXPERIMENT"]])
-        parse_experiment_id(self.connection, self.cursor, experiment_id)
+        mes = parse_experiment_id(self.connection, self.cursor, experiment_id)
+
+        if mes != "Good":
+            return mes;
 
         all_measurements_found = True
         transaction = []

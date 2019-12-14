@@ -56,15 +56,15 @@ def parse_experiment_id(connection, cursor, experiment_id):
             return "Bad condition"
 
         condition_type = tuples[0][1]
-        if condition_type == "int":
+        if condition_type == "Integer":
             if not str_is_int(condition_value):
                 print("Value for condition " + condition + " of " + condition_value + " is not an int.")
                 return "Bad condition"
-        elif condition_type == "bool":
+        elif condition_type == "Boolean":
             if not str_is_bool(condition_value):
                 print("Value for condition " + condition + " of " + condition_value + " is not a bool.")
                 return "Bad condition"
-        elif condition_type == "float":
+        elif condition_type == "Float":
             if not str_is_float(condition_value):
                 print("Value for condition " + condition + " of " + condition_value + " is not a float.")
                 return "Bad condition"
@@ -138,17 +138,17 @@ def read_csv_file(connection, cursor, csv_path):
                     if meas_val is None or meas_val == "":
                         continue
 
-                    if measurement_type == "int":
+                    if measurement_type == "Integer":
                         if not str_is_int(meas_val):
                             print("Value for measurement " + measurement + " of " + meas_val + " is not an int.")
                             all_measurements_found = False
                             break
-                    if measurement_type == "bool":
+                    if measurement_type == "Boolean":
                         if not str_is_bool(meas_val):
                             print("Value for measurement " + measurement + " of " + meas_val + " is not a bool.")
                             all_measurements_found = False
                             break
-                    if measurement_type == "float":
+                    if measurement_type == "Float":
                         if not str_is_float(meas_val):
                             print("Value for measurement " + measurement + " of " + meas_val + " is not a float.")
                             all_measurements_found = False
