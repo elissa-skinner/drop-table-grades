@@ -93,13 +93,13 @@ class DB_Connection:
 
     def insert_new_experiment(self, results):
         experiment_id = service.reorder_exp(results[DICT_OF_NAMES["EXPERIMENT"]])
-        mes = parse_experiment_id(self.connection, self.cursor, experiment_id)
+        statements = []
+        mes = parse_experiment_id(self.connection, self.cursor, experiment_id, statements)
 
         if mes != "Good":
             return mes;
 
         all_measurements_found = True
-        transaction = []
 
         for measurement in results:
             if measurement != DICT_OF_NAMES["EXPERIMENT"]:
@@ -135,8 +135,8 @@ class DB_Connection:
                         err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not a float."
                         print(err_msg)
                         return err_msg
-                transaction.append("INSERT INTO experiment_measurements "
-                                   "VALUES ('%s','%s','%s');" % (experiment_id, measurement, meas_val))
+                statements.append("INSERT INTO experiment_measurements "
+                                  "VALUES ('%s','%s','%s');" % (experiment_id, measurement, meas_val))
 
                 if not all_measurements_found:
                     break
@@ -146,7 +146,7 @@ class DB_Connection:
             return "Processing stopped because invalid measurement was found."
 
         try:
-            for statement in transaction:
+            for statement in statements:
                 self.cursor.execute(statement)
             self.connection.commit()
         except Exception as e:
