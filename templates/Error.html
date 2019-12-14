@@ -4,20 +4,20 @@
     <link rel="stylesheet" href='/static/main.css'/>
 
   </head>
-   <body>
-	 <header><div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
+   <body style=' color: red;'>
+
+	 <header style=' color: black;'><div>Menu: <a href="/">Home,</a> <a href="/newCondit" method = "GET">New Condition,</a>
 	<a href="/newMesur">New Measurement,</a> <a href="/newSeq">New Sequence,</a>
 	<a href="/exp">Experiment,</a> <a href="/enterCSV">EnterCSV,</a>
 	<a href="/expInfo">Get Experiment Info,</a> <a href="/sideByside">Get Side by Side Comparison,</a>
 	<a href="/results">Get Results</a></div>
 	</header>
 
-	
-	<h1>Error in DataBase</h1> <br>
-	 <form action = "http://localhost:5000/" method = "POST">
-         <p>{{ result2 }}</p>
-	<p>Pease try action again</p>
+	<br>
+	<h1>Error: {{ result2 }}</h1>
 
+	 <form action = "http://localhost:5000/" method = "POST">
+         <br>
 
 	<p><input type = "submit" value = "Back to Main" /></p>
       </form>
