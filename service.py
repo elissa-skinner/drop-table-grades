@@ -84,6 +84,22 @@ def get_mult_exp_info(result):
     return db.execute_query(query)
 
 
+def reorder_exp(exp_id):
+    exp_tokens = exp_id.split('_')
+
+    seq_name = exp_tokens[0]
+    exp_tokens = exp_tokens[1:]
+    conditions = {}
+
+    for i in range(0, len(exp_tokens), 2):
+        conditions[exp_tokens[i]] = exp_tokens[i+1]
+
+    exp_id = seq_name
+    for i in sorted(conditions):
+        exp_id += '_' + i + '_' + conditions[i]
+
+    return exp_id
+
 
 ###########
 # queries #

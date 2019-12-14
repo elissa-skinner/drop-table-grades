@@ -1,4 +1,5 @@
 import csv
+import service
 
 
 def str_is_int(s):
@@ -38,11 +39,9 @@ def parse_experiment_id(connection, cursor, experiment_id):
                                        " Please enter its information in the gui.")
         return "Bad sequence"
 
-    try:
-        cursor.execute("INSERT INTO experiments "
-                       "VALUES (%s,%s)", (experiment_id, seq_name))
-    except Exception as e:
-        print(str(e))
+    transaction = []
+
+    transaction.append("INSERT INTO experiments VALUES ('%s','%s')" % (experiment_id, seq_name))
 
     all_conditions_found = True
     for j in range(0, len(experiment_tokens), 2):
@@ -71,12 +70,15 @@ def parse_experiment_id(connection, cursor, experiment_id):
                 return "Bad condition"
 
         # condition is now verified
-        try:
-            cursor.execute("INSERT INTO experiment_conditions "
-                           "VALUES (%s,%s,%s);", (experiment_id, condition, condition_value))
-            connection.commit()
-        except Exception as e:
-            print(str(e))
+        transaction.append("INSERT INTO experiment_conditions "
+                           "VALUES ('%s','%s','%s');" % (experiment_id, condition, condition_value))
+
+    try:
+        for statement in transaction:
+            cursor.execute(statement)
+        connection.commit()
+    except Exception as e:
+        print(str(e))
 
     return "Good"
 
@@ -93,7 +95,7 @@ def read_csv_file(connection, cursor, csv_path):
             all_conditions_found = True
 
             for i in range(1, len(start_row)):
-                experiment_id = str(start_row[i])
+                experiment_id = service.reorder_exp(str(start_row[i]))
                 result = parse_experiment_id(connection,cursor,experiment_id)
 
                 if result == "Bad sequence":
@@ -130,7 +132,7 @@ def read_csv_file(connection, cursor, csv_path):
 
                 measurement_type = tuples[0][1]
                 for i in range(1, len(row)):
-                    experiment_id = start_row[i]
+                    experiment_id = service.reorder_exp(start_row[i])
                     meas_val = row[i]
 
                     if meas_val is None or meas_val == "":

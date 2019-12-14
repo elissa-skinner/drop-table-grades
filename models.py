@@ -1,5 +1,7 @@
 import pymysql.cursors
 import csv
+
+import service
 from service import *
 from dbcsv import read_csv_file as read_csv
 from dbcsv import parse_experiment_id as parse_experiment_id
@@ -90,10 +92,11 @@ class DB_Connection:
             print(str(e))
 
     def insert_new_experiment(self, results):
-        experiment_id = results[DICT_OF_NAMES["EXPERIMENT"]]
+        experiment_id = service.reorder_exp(results[DICT_OF_NAMES["EXPERIMENT"]])
         parse_experiment_id(self.connection, self.cursor, experiment_id)
 
         all_measurements_found = True
+        transaction = []
 
         for measurement in results:
             if measurement != DICT_OF_NAMES["EXPERIMENT"]:
@@ -114,27 +117,23 @@ class DB_Connection:
                 if meas_val is None or meas_val == "":
                     continue
 
-                if measurement_type == "int":
+                if measurement_type == "Integer":
                     if not str_is_int(meas_val):
                         err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not an int."
                         print(err_msg)
                         return err_msg
-                if measurement_type == "bool":
+                if measurement_type == "Boolean":
                     if not str_is_bool(meas_val):
                         err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not a bool."
                         print(err_msg)
                         return err_msg
-                if measurement_type == "float":
+                if measurement_type == "Float":
                     if not str_is_float(meas_val):
                         err_msg = "Value for measurement " + measurement + " of " + meas_val + " is not a float."
                         print(err_msg)
                         return err_msg
-                try:
-                    self.cursor.execute("INSERT INTO experiment_measurements "
-                                        "VALUES (%s,%s,%s);", (experiment_id, measurement, meas_val))
-                    self.connection.commit()
-                except Exception as e:
-                    return str(e)
+                transaction.append("INSERT INTO experiment_measurements "
+                                   "VALUES ('%s','%s','%s');" % (experiment_id, measurement, meas_val))
 
                 if not all_measurements_found:
                     break
@@ -142,6 +141,14 @@ class DB_Connection:
         if not all_measurements_found:
             print("Processing stopped because invalid measurement was found.")
             return "Processing stopped because invalid measurement was found."
+
+        try:
+            for statement in transaction:
+                self.cursor.execute(statement)
+            self.connection.commit()
+        except Exception as e:
+            return str(e)
+
 
     def get_meas_from_db(self):
         try:
@@ -185,3 +192,5 @@ class DB_Connection:
 
         except Exception as e:
             print(str(e))
+
+
