@@ -99,9 +99,11 @@ def inputResultsSC():
 def displayResults():
     if request.method == 'POST':
         result = request.form
-        result2 = get_mult_exp_info(result)
+        
+        result2 = get_mult_exp(result)
+        result3 = get_mult_exp_meas(result)
         if result2 != None: 
-            return render_template("displayResults.html", result=result, result2 = result2)
+            return render_template("displayResults.html", result=result, result2 = result2, result3 = result3)
         else:
             result2 = 'No Tuples Found'
             return render_template("Error.html", result2=result2)

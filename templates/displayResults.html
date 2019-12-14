@@ -14,15 +14,35 @@
 
 	
 	<h1>Result Info</h1> <br>
-	 {% for value in result2 %}
+	Experiments using Sequences and Conditions given:<br>
+	{% for value in result2 %}
             <tr>
-		<p>Experiment Name: {{ value[0] }}<br>
-		Measurement Name: {{ value[1] }}<br>
-		Meassurement Value: {{ value[2] }}</p>
-         	
+
+		<output> {{ value[0] }}</output><br>
                
             </tr>
          {% endfor %}
+{% if result3 != none %}
+
+
+<br>
+
+<table>
+<tr><th>Experiment </th><th>Measurement</th><th>Value</th></tr>
+
+ 	{% for value in result3 %}
+	 <tr>
+		<td>{{ value[0] }}</td>
+		<td>{{ value[1] }}</td>
+		<td>{{ value[2] }}</td>
+         	
+               
+           </tr>
+         {% endfor %}
+
+</table>
+{% endif %}
+
  	<form action = "http://localhost:5000" method = "POST">
          <p><input type = "submit" value = "Back to Main" /></p>
       </form>
