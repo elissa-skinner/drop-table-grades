@@ -94,7 +94,7 @@ def get_mult_exp_meas(result):
     if len(m) == 0:
         return None
     else:
-        return db.execute_quety(get_mult_exp_info_query(s, c, m))
+        return db.execute_query(get_mult_exp_info_query(s, c, m))
 
 
 def reorder_exp(exp_id):
