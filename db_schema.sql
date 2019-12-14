@@ -42,7 +42,9 @@ CREATE TABLE `experiment_conditions` (
   `cond_name` varchar(45) NOT NULL,
   `cond_val` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`exp_id`,`cond_name`),
-  CONSTRAINT `exp_cond_id` FOREIGN KEY (`exp_id`) REFERENCES `experiments` (`exp_id`)
+  KEY `cond_idx` (`cond_name`),
+  CONSTRAINT `cond` FOREIGN KEY (`cond_name`) REFERENCES `conditions` (`cond_name`),
+  CONSTRAINT `cond_exp_id` FOREIGN KEY (`exp_id`) REFERENCES `experiments` (`exp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -58,8 +60,9 @@ CREATE TABLE `experiment_measurements` (
   `meas_name` varchar(45) NOT NULL,
   `meas_val` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`exp_id`,`meas_name`),
-  CONSTRAINT `cond_meas_id` FOREIGN KEY (`exp_id`) REFERENCES `experiment_conditions` (`exp_id`),
-  CONSTRAINT `exp_meas_id` FOREIGN KEY (`exp_id`) REFERENCES `experiments` (`exp_id`)
+  KEY `meas_idx` (`meas_name`),
+  CONSTRAINT `meas` FOREIGN KEY (`meas_name`) REFERENCES `measurements` (`meas_name`),
+  CONSTRAINT `meas_exp_id` FOREIGN KEY (`exp_id`) REFERENCES `experiments` (`exp_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -124,4 +127,4 @@ CREATE TABLE `sequences` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-14 16:51:37
+-- Dump completed on 2019-12-14 17:34:03
