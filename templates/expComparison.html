@@ -21,16 +21,31 @@
                
             </tr>
          {% endfor %}
+<br>
+<table>
+<tr><th>Measurement</th>
+ {% for key, value in result.items() %}
 
-	 {% for value in result2 %}
-            <tr>
-		<p>Measurement Name: {{ value[0] }}<br>
-		Experiment 1 Value: {{ value[1] }}<br>
-		Experiment 2 Value: {{ value[2] }}</p>
+		
+               <th> {{ value }} </th>
+               
+
+         {% endfor %}
+</tr>
+
+ 	{% for value in result2 %}
+	 <tr>
+		<td style='text-align: center'>{{ value[0] }}</td>
+		<td style='text-align: center'>{{ value[1] }}</td>
+		<td style='text-align: center'>{{ value[2] }}</td>
          	
                
-            </tr>
+           </tr>
          {% endfor %}
+
+</table>
+<br>
+	 
 
 	<p><input type = "submit" value = "Back to Main" /></p>
       </form>

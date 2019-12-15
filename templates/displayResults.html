@@ -22,19 +22,20 @@
                
             </tr>
          {% endfor %}
-{% if result3 != none %}
-
 
 <br>
+
+{% if result3 != none %}
+
 
 <table>
 <tr><th>Experiment </th><th>Measurement</th><th>Value</th></tr>
 
  	{% for value in result3 %}
 	 <tr>
-		<td>{{ value[0] }}</td>
-		<td>{{ value[1] }}</td>
-		<td>{{ value[2] }}</td>
+		<td style='text-align: center'>{{ value[0] }}</td>
+		<td style='text-align: center'>{{ value[1] }}</td>
+		<td style='text-align: center'>{{ value[2] }}</td>
          	
                
            </tr>
