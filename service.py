@@ -31,8 +31,8 @@ def insert_into_db(results):
 
 
 def compare_exp(results):
-    exp1 = results["Experiment #1 "]
-    exp2 = results["Experiment #2 "]
+    exp1 = reorder_exp(results["Experiment #1 "])
+    exp2 = reorder_exp(results["Experiment #2 "])
     if not db.is_exp(exp1) or not db.is_exp(exp2):
         print("bad experiment names")
         return None

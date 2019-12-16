@@ -107,8 +107,8 @@ DROP TABLE IF EXISTS `sequences`;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `sequences` (
   `seq_name` varchar(45) NOT NULL,
-  `filename` varchar(45) DEFAULT NULL,
-  `description` varchar(45) DEFAULT NULL,
+  `filename` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`seq_name`),
   UNIQUE KEY `seq_name_UNIQUE` (`seq_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -127,4 +127,4 @@ CREATE TABLE `sequences` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2019-12-14 17:34:03
+-- Dump completed on 2019-12-16 13:04:12
